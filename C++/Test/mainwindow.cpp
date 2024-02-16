@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QPixmap>
 #include <QStringList>
+
 using namespace std;
 
 
@@ -57,13 +58,16 @@ MainWindow::MainWindow(QWidget *parent)
         "N'Djamena" << "Nagoya" << "Nairobi" << "Nanchong" << "Nanjing" << "Nassau" << "Nay Pyi Taw" << "New York" << "Niamey" << "Nicosia" << "Nouakchott" << "Noumea" << "Novosibirsk" << "Nuku'alofa" << "Nur-Sultan" << "Nuuk" << "Oranjestad";
     ui->comboBox->addItems(city_names);
 
+    // left panel buttons
     connect(ui->Home_button, &QPushButton::clicked, this, &MainWindow::Home_button);
     connect(ui->Dashboard_button, &QPushButton::clicked, this, &MainWindow::Dashboard_button);
     connect(ui->Search_button, &QPushButton::clicked, this, &MainWindow::Search_button);
     connect(ui->Map_button, &QPushButton::clicked, this, &MainWindow::Map_button);
     connect(ui->Setting_button, &QPushButton::clicked, this, &MainWindow::Setting_button);
-}
 
+    // middle panel label
+
+}
 
 MainWindow::~MainWindow()
 {
@@ -94,4 +98,30 @@ void MainWindow::Setting_button()
 {
     qDebug() << "Setting-Button-Clicked";
 }
+
+// void MainWindow::makeApiRequest(const QString& city)
+// {
+//     QUrl url("http://api.openweathermap.org/data/2.5/weather");
+//     QUrlQuery query;
+//     query.addQueryItem("q", city);
+//     query.addQueryItem("appid", apiKey);
+//     url.setQuery(query);
+
+//     QNetworkRequest request(url);
+//     manager->get(request);
+// }
+
+// void MainWindow::replyFinished(QNetworkReply *reply)
+// {
+//     if (reply->error() == QNetworkReply::NoError) {
+//         QString response = reply->readAll();
+//         qDebug() << "API Response: " << response;
+//         // Parse the JSON response and update your UI accordingly
+//     } else {
+//         qDebug() << "API Request failed: " << reply->errorString();
+//     }
+
+//     reply->deleteLater();
+// }
+
 
