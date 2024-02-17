@@ -117,10 +117,10 @@ QNetworkReply* MainWindow::makeApiRequest(const QString &link)
 
     QNetworkReply *currentWeatherReply = manager->get(currentWeatherRequest);
 
-    // Connect the finished signal to a lambda function for further processing
-    connect(manager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *finishedReply) {
-        if (finishedReply->error() == QNetworkReply::NoError) {
-            QByteArray data = finishedReply->readAll();
+    // Connect the finished signal for the current weather request
+    connect(currentWeatherReply, &QNetworkReply::finished, this, [=]() {
+        if (currentWeatherReply->error() == QNetworkReply::NoError) {
+            QByteArray data = currentWeatherReply->readAll();
             QJsonDocument jsonResponse = QJsonDocument::fromJson(data);
             QJsonObject jsonObject = jsonResponse.object();
             qDebug() << data;
@@ -131,60 +131,33 @@ QNetworkReply* MainWindow::makeApiRequest(const QString &link)
             // Extract the city ID from the current weather response
             int cityId = jsonObject.value("id").toInt();
 
-            // Hourly forecast request
-            QUrl hourlyForecastUrl("http://api.openweathermap.org/data/2.5/forecast?id=" + QString::number(cityId) + "&appid=4c2d59ca85c3178d321be386f81a3f5b");
-            QNetworkRequest hourlyForecastRequest(hourlyForecastUrl);
+            // forecastWeather forecast request
+            QUrl forecastWeatherUrl("http://api.openweathermap.org/data/2.5/forecast?id=" + QString::number(cityId) + "&appid=4c2d59ca85c3178d321be386f81a3f5b");
+            QNetworkRequest forecastWeatherRequest(forecastWeatherUrl);
 
-            QNetworkReply *hourlyForecastReply = manager->get(hourlyForecastRequest);
+            QNetworkReply *forecastWeatherReply = manager->get(forecastWeatherRequest);
 
-            // Connect the finished signal for the hourly forecast request
-            connect(manager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *hourlyFinishedReply) {
-                if (hourlyFinishedReply->error() == QNetworkReply::NoError) {
-                    QByteArray hourlyData = hourlyFinishedReply->readAll();
-                    QJsonDocument hourlyJsonResponse = QJsonDocument::fromJson(hourlyData);
-                    QJsonObject hourlyJsonObject = hourlyJsonResponse.object();
-                    qDebug() << hourlyData;
+            // Connect the finished signal for the forecastWeather forecast request
+            connect(forecastWeatherReply, &QNetworkReply::finished, this, [=]() {
+                if (forecastWeatherReply->error() == QNetworkReply::NoError) {
+                    QByteArray forecastWeatherData = forecastWeatherReply->readAll();
+                    QJsonDocument forecastWeatherJsonResponse = QJsonDocument::fromJson(forecastWeatherData);
+                    QJsonObject forecastWeatherJsonObject = forecastWeatherJsonResponse.object();
+                    qDebug() << "\nforecastWeatherData(fivedays) : " << forecastWeatherData;
 
-                    // Process the hourly forecast data as needed
-                    // updateUIFromHourlyForecast(hourlyJsonObject);
+                    // Process the forecastWeather forecast data as needed
+                    // updateUIFromforecastWeather(forecastWeatherJsonObject);
                 } else {
-                    qDebug() << "Error fetching hourly forecast data: " << hourlyFinishedReply->errorString();
+                    qDebug() << "Error fetching forecastWeather forecast data: " << forecastWeatherReply->errorString();
                 }
 
-                // Clean up the hourly forecast reply
-                hourlyFinishedReply->deleteLater();
+                // Clean up the forecastWeather forecast reply
+                forecastWeatherReply->deleteLater();
             });
-
-            // Five-day forecast request
-            QUrl fiveDayForecastUrl("http://api.openweathermap.org/data/2.5/forecast?id=" + QString::number(cityId) + "&appid=4c2d59ca85c3178d321be386f81a3f5b");
-            QNetworkRequest fiveDayForecastRequest(fiveDayForecastUrl);
-
-            QNetworkReply *fiveDayForecastReply = manager->get(fiveDayForecastRequest);
-
-            // Connect the finished signal for the five-day forecast request
-            connect(manager, &QNetworkAccessManager::finished, this, [=](QNetworkReply *fiveDayFinishedReply) {
-                if (fiveDayFinishedReply->error() == QNetworkReply::NoError) {
-                    QByteArray fiveDayData = fiveDayFinishedReply->readAll();
-                    QJsonDocument fiveDayJsonResponse = QJsonDocument::fromJson(fiveDayData);
-                    QJsonObject fiveDayJsonObject = fiveDayJsonResponse.object();
-                    qDebug() << fiveDayData;
-
-                    // Process the five-day forecast data as needed
-                    // updateUIFromFiveDayForecast(fiveDayJsonObject);
-                } else {
-                    qDebug() << "Error fetching five-day forecast data: " << fiveDayFinishedReply->errorString();
-                }
-
-                // Clean up the five-day forecast reply
-                fiveDayFinishedReply->deleteLater();
-            });
-        } else {
-            qDebug() << "Error fetching data for City " << link << ": " << finishedReply->errorString();
         }
 
-        // Clean up the current weather reply and network manager
-        finishedReply->deleteLater();
-        manager->deleteLater();
+        // Clean up the current weather reply
+        currentWeatherReply->deleteLater();
     });
 
     return currentWeatherReply;
@@ -240,6 +213,45 @@ void MainWindow::updateUIFromApiResponse(const QJsonObject &jsonObject)
         qDebug() << "Empty JSON object received.";
     }
 }
+void MainWindow::updateUIFromHourlyForecast(const QJsonObject &forecastWeatherJsonObject)
+{
+    qDebug() << "Entering updateUIFromHourlyForecast function\n\n\n\n";
+
+    if (!forecastWeatherJsonObject.isEmpty()) {
+        qDebug() << "Forecast data is not empty. Continuing...";
+
+        // Process the hourly forecast data as needed
+        qDebug() << "Before extracting temperature:" << forecastWeatherJsonObject["list"].toArray()[0];
+        double tempAtSix = forecastWeatherJsonObject["list"].toArray()[0].toObject()["main"].toObject()["temp"].toDouble();
+        qDebug() << "After extracting temperature:" << tempAtSix;
+
+        // Update the UI for each hour, e.g., add to a chart or display in a list
+        // Example: ui->hourlyTemperatureChart->addData(hourlyTemp);
+    } else {
+        qDebug() << "Empty hourly forecast JSON object received.";
+    }
+
+    qDebug() << "Exiting updateUIFromHourlyForecast function";
+}
+
+void MainWindow::updateUIFromFiveDayForecast(const QJsonObject &forecastWeatherJsonObject)
+{
+    if (!forecastWeatherJsonObject.isEmpty()) {
+        // Process the five-day forecast data as needed
+        // Extract relevant information from the JSON object and update the UI
+
+        // Example: Update daily temperature values
+        QJsonArray dailyList = forecastWeatherJsonObject["list"].toArray();
+        for (const QJsonValue &dailyData : dailyList) {
+            double dailyTemp = dailyData.toObject()["main"].toObject()["temp"].toDouble();
+            // Update the UI for each day, e.g., add to a chart or display in a list
+            // Example: ui->dailyTemperatureChart->addData(dailyTemp);
+        }
+    } else {
+        qDebug() << "Empty five-day forecast JSON object received.";
+    }
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////

@@ -1317,7 +1317,7 @@ border-radius: 10px;</string>
       </property>
      </widget>
     </widget>
-    <widget class="QFrame" name="sevenday_frame">
+    <widget class="QFrame" name="fiveday_frame">
      <property name="geometry">
       <rect>
        <x>20</x>
