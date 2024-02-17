@@ -28,6 +28,10 @@ public:
 public slots:
     void updateUIFromApiResponse(const QJsonObject &jsonObject);
 
+    void updateUIFromHourlyForecast(const QJsonObject &forecastWeatherJsonObject);
+
+    void updateUIFromFiveDayForecast(const QJsonObject &forecastWeatherJsonObject);
+
     // void updateLocationLabel(QString LocationText);
 
     // void updateWindspeedLabel(double windSpeed);
