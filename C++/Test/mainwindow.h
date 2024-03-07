@@ -7,6 +7,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include "search.h"
+#include "setting.h"
+// #include "map.h"
 
 using namespace std;
 
@@ -64,6 +66,8 @@ private:
     QStringList city_names;
     QNetworkReply* makeApiRequest(const QString &link);
     Search *search;
+    Setting *setting;
+    // Map *map;
     // void updateUIFromApiResponse(QNetworkReply* reply);
 
 };

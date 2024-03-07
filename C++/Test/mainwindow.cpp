@@ -102,11 +102,17 @@ void MainWindow::Search_button()
 void MainWindow::Map_button()
 {
     qDebug() << "Map-Button-Clicked";
+    // hide();
+    // map = new Map(this);
+    // map->show();
 }
 
 void MainWindow::Setting_button()
 {
     qDebug() << "Setting-Button-Clicked";
+    hide();
+    setting = new Setting(this);
+    setting->show();
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 
