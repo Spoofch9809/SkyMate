@@ -94,6 +94,9 @@ void MainWindow::Dashboard_button()
 void MainWindow::Search_button()
 {
     qDebug() << "Search-Button-Clicked";
+    hide();
+    search = new Search(this);
+    search->show();
 }
 
 void MainWindow::Map_button()

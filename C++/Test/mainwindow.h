@@ -6,6 +6,7 @@
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include "search.h"
 
 using namespace std;
 
@@ -62,6 +63,7 @@ private:
     Ui::MainWindow *ui;
     QStringList city_names;
     QNetworkReply* makeApiRequest(const QString &link);
+    Search *search;
     // void updateUIFromApiResponse(QNetworkReply* reply);
 
 };
