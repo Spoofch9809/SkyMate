@@ -1,11 +1,11 @@
-#include "search.h"
-#include "ui_search.h"
-#include "mainwindow.h"
 #include "setting.h"
+#include "ui_setting.h"
+#include "mainwindow.h"
+#include "search.h"
 
-Search::Search(QWidget *parent)
+Setting::Setting(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::Search)
+    , ui(new Ui::Setting)
 {
     ui->setupUi(this);
     // Icons for the left widget menu bar in buttons
@@ -26,13 +26,13 @@ Search::Search(QWidget *parent)
     // ui->sunset_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sunset_icon.png"));
 
     // Icons in the middle widget for weathericon indicator
-    ui->weathericon_indicator->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
+    // ui->weathericon_indicator->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
 
     // Icons in the right widget
     // today's weather widget
-    ui->weathericon_indicator_at_six->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudymightrain_icon.png"));
-    ui->weathericon_indicator_at_nine->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudy_icon.png"));
-    ui->weathericon_indicator_at_twelve->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
+    // ui->weathericon_indicator_at_six->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudymightrain_icon.png"));
+    // ui->weathericon_indicator_at_nine->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudy_icon.png"));
+    // ui->weathericon_indicator_at_twelve->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
 
     // 7Day Foorecast
     // ui->monday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
@@ -52,21 +52,20 @@ Search::Search(QWidget *parent)
         "Kabul" << "Kaduna" << "Kampala" << "Kano" << "Kanpur" << "Kaohsiung" << "Karachi" << "Karaj" << "Kathmandu" << "Kawasaki" << "Kharkiv" << "Khartoum" << "Khulna" << "Kigali" << "Kingsburg" << "Kingston" << "Kingstown" << "Kinshasa" << "Kobe" << "Kolkata" << "Kota Bharu" << "Kowloon" << "Kuala Lumpur" << "Kumasi" << "Kuwait" << "Kyiv" << "Kyoto" <<
         "La Paz" << "Lagos" << "Lahore" << "Libreville" << "Lilongwe" << "Lima" << "Lisbon" << "Ljubljana" << "Lome" << "London" << "Los Angeles" << "Luanda" << "Lubumbashi" << "Lusaka" << "Luxembourg" << "Macau" << "Madrid" << "Majuro" << "Makassar" << "Malabo" << "Male" << "Mamoudzou" << "Managua" << "Manama" << "Manaus" << "Manila" << "Maputo" << "Maracaibo" << "Maracay" << "Mariehamn" << "Marigot" << "Maseru" << "Mashhad" << "Mbabane" << "Mecca" << "Medan" << "Medellin" << "Medina" << "Melbourne" << "Mexico City" << "Miami" << "Minsk" << "Mogadishu" << "Monaco" << "Monrovia" << "Montevideo" << "Montreal" << "Moroni" << "Moscow" << "Mosul" << "Multan" << "Mumbai" << "Muscat" <<
         "N'Djamena" << "Nagoya" << "Nairobi" << "Nanchong" << "Nanjing" << "Nassau" << "Nay Pyi Taw" << "New York" << "Niamey" << "Nicosia" << "Nouakchott" << "Noumea" << "Novosibirsk" << "Nuku'alofa" << "Nur-Sultan" << "Nuuk" << "Oranjestad";
-    ui->comboBox->addItems(city_names);
+    // ui->comboBox->addItems(city_names);
 
-    connect(ui->Home_button, &QPushButton::clicked, this, &Search::Home_button);
-    connect(ui->Dashboard_button, &QPushButton::clicked, this, &Search::Dashboard_button);
-    connect(ui->Search_button, &QPushButton::clicked, this, &Search::Search_button);
-    connect(ui->Map_button, &QPushButton::clicked, this, &Search::Map_button);
-    connect(ui->Setting_button, &QPushButton::clicked, this, &Search::Setting_button);
-
+    connect(ui->Home_button, &QPushButton::clicked, this, &Setting::Home_button);
+    connect(ui->Dashboard_button, &QPushButton::clicked, this, &Setting::Dashboard_button);
+    connect(ui->Search_button, &QPushButton::clicked, this, &Setting::Search_button);
+    connect(ui->Map_button, &QPushButton::clicked, this, &Setting::Map_button);
+    connect(ui->Setting_button, &QPushButton::clicked, this, &Setting::Setting_button);
 }
 
-Search::~Search()
+Setting::~Setting()
 {
     delete ui;
 }
-void Search::Home_button()
+void Setting::Home_button()
 {
     qDebug() << "Home-Button-Clicked";
     hide();
@@ -74,25 +73,27 @@ void Search::Home_button()
     mainWindow->show();
 }
 
-void Search::Dashboard_button()
+void Setting::Dashboard_button()
 {
     qDebug() << "DashBoard-Button-Clicked";
 }
 
-void Search::Search_button()
+void Setting::Search_button()
 {
     qDebug() << "Search-Button-Clicked";
+    hide();
+    Search *search = new Search();
+    search->show();
 }
 
-void Search::Map_button()
+void Setting::Map_button()
 {
     qDebug() << "Map-Button-Clicked";
 }
 
-void Search::Setting_button()
+void Setting::Setting_button()
 {
     qDebug() << "Setting-Button-Clicked";
-    hide();
-    Setting *setting = new Setting();
-    setting->show();
 }
+
+

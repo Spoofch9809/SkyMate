@@ -11,17 +11,23 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    search.cpp
+    search.cpp \
+    setting.cpp
 
 HEADERS += \
     mainwindow.h \
-    search.h
+    search.h \
+    setting.h
 
 FORMS += \
     mainwindow.ui \
-    search.ui
+    search.ui \
+    setting.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    maps.qrc
