@@ -103,4 +103,13 @@ void Setting::Setting_button()
     qDebug() << "Setting-Button-Clicked";
 }
 
+// void Setting::celsius_checkBox_stateChanged(int arg1)
+// {
+
+// }
+
+// void Setting::fahrenheit_checkBox_stateChanged(int state)
+// {
+//     emit fahrenheit_checkBox_stateChanged(state);
+// }
 

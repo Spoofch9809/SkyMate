@@ -329,7 +329,7 @@
      <height>16777215</height>
     </size>
    </property>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QCheckBox" name="celsius_checkBox">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -342,7 +342,7 @@
      <string>Celsius</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox_2">
+   <widget class="QCheckBox" name="fahrenheit_checkBox">
     <property name="geometry">
      <rect>
       <x>260</x>
@@ -355,7 +355,7 @@
      <string>Fahrenheit</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox_3">
+   <widget class="QCheckBox" name="matric_checkBox">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -368,7 +368,7 @@
      <string>matric</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox_4">
+   <widget class="QCheckBox" name="imperial_checkBox">
     <property name="geometry">
      <rect>
       <x>270</x>

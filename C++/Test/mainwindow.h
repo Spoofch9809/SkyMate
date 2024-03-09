@@ -68,8 +68,6 @@ private:
     Search *search;
     Setting *setting;
     myMap *mymap;
-    // Map *map;
-    // void updateUIFromApiResponse(QNetworkReply* reply);
 
 };
 #endif // MAINWINDOW_H
