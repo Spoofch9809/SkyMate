@@ -131,13 +131,13 @@ public:
         checkBox->setGeometry(QRect(70, 100, 85, 20));
         checkBox_2 = new QCheckBox(Middle);
         checkBox_2->setObjectName("checkBox_2");
-        checkBox_2->setGeometry(QRect(210, 100, 85, 20));
+        checkBox_2->setGeometry(QRect(260, 100, 85, 20));
         checkBox_3 = new QCheckBox(Middle);
         checkBox_3->setObjectName("checkBox_3");
-        checkBox_3->setGeometry(QRect(70, 140, 85, 20));
+        checkBox_3->setGeometry(QRect(70, 260, 85, 20));
         checkBox_4 = new QCheckBox(Middle);
         checkBox_4->setObjectName("checkBox_4");
-        checkBox_4->setGeometry(QRect(210, 140, 85, 20));
+        checkBox_4->setGeometry(QRect(270, 260, 85, 20));
 
         retranslateUi(Setting);
 

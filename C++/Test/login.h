@@ -17,6 +17,7 @@ public:
 
 private slots:
     void login_Button();
+    void goto_signup_button();
 
 private:
     Ui::login *ui;

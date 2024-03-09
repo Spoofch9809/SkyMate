@@ -268,12 +268,12 @@ public:
         label_4->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
         AirQuality_icon = new QLabel(AirQuality_frame);
         AirQuality_icon->setObjectName("AirQuality_icon");
-        AirQuality_icon->setGeometry(QRect(20, 10, 21, 21));
+        AirQuality_icon->setGeometry(QRect(20, 10, 25, 25));
         AirQuality_icon->setPixmap(QPixmap(QString::fromUtf8("../Icons/AirQuality.png")));
         AirQuality_icon->setScaledContents(true);
         AirQuality_value = new QLabel(AirQuality_frame);
         AirQuality_value->setObjectName("AirQuality_value");
-        AirQuality_value->setGeometry(QRect(60, 50, 61, 16));
+        AirQuality_value->setGeometry(QRect(50, 50, 61, 16));
         QFont font4;
         font4.setFamilies({QString::fromUtf8("Arial")});
         font4.setPointSize(18);
