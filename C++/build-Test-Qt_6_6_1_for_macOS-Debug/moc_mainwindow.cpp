@@ -46,8 +46,8 @@ static constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers:
     "updateUIFromHourlyForecast",
     "forecastWeatherJsonObject",
     "updateUIFromFiveDayForecast",
-    "updateUIFromUVIndex",
-    "UVindexJsonObject",
+    "updateUIAirQuality",
+    "AirQalityJsonObject",
     "Map_button",
     "Home_button",
     "Dashboard_button",
@@ -66,8 +66,8 @@ struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {
     char stringdata4[27];
     char stringdata5[26];
     char stringdata6[28];
-    char stringdata7[20];
-    char stringdata8[18];
+    char stringdata7[19];
+    char stringdata8[20];
     char stringdata9[11];
     char stringdata10[12];
     char stringdata11[17];
@@ -87,15 +87,15 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSMainWindowENDCLASS_t qt_meta_st
         QT_MOC_LITERAL(47, 26),  // "updateUIFromHourlyForecast"
         QT_MOC_LITERAL(74, 25),  // "forecastWeatherJsonObject"
         QT_MOC_LITERAL(100, 27),  // "updateUIFromFiveDayForecast"
-        QT_MOC_LITERAL(128, 19),  // "updateUIFromUVIndex"
-        QT_MOC_LITERAL(148, 17),  // "UVindexJsonObject"
-        QT_MOC_LITERAL(166, 10),  // "Map_button"
-        QT_MOC_LITERAL(177, 11),  // "Home_button"
-        QT_MOC_LITERAL(189, 16),  // "Dashboard_button"
-        QT_MOC_LITERAL(206, 13),  // "Search_button"
-        QT_MOC_LITERAL(220, 14),  // "Setting_button"
-        QT_MOC_LITERAL(235, 31),  // "on_comboBox_currentIndexChanged"
-        QT_MOC_LITERAL(267, 5)   // "index"
+        QT_MOC_LITERAL(128, 18),  // "updateUIAirQuality"
+        QT_MOC_LITERAL(147, 19),  // "AirQalityJsonObject"
+        QT_MOC_LITERAL(167, 10),  // "Map_button"
+        QT_MOC_LITERAL(178, 11),  // "Home_button"
+        QT_MOC_LITERAL(190, 16),  // "Dashboard_button"
+        QT_MOC_LITERAL(207, 13),  // "Search_button"
+        QT_MOC_LITERAL(221, 14),  // "Setting_button"
+        QT_MOC_LITERAL(236, 31),  // "on_comboBox_currentIndexChanged"
+        QT_MOC_LITERAL(268, 5)   // "index"
     },
     "MainWindow",
     "updateUIFromApiResponse",
@@ -104,8 +104,8 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSMainWindowENDCLASS_t qt_meta_st
     "updateUIFromHourlyForecast",
     "forecastWeatherJsonObject",
     "updateUIFromFiveDayForecast",
-    "updateUIFromUVIndex",
-    "UVindexJsonObject",
+    "updateUIAirQuality",
+    "AirQalityJsonObject",
     "Map_button",
     "Home_button",
     "Dashboard_button",
@@ -176,7 +176,7 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         // method 'updateUIFromFiveDayForecast'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QJsonObject, std::false_type>,
-        // method 'updateUIFromUVIndex'
+        // method 'updateUIAirQuality'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QJsonObject, std::false_type>,
         // method 'Map_button'
@@ -205,7 +205,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 0: _t->updateUIFromApiResponse((*reinterpret_cast< std::add_pointer_t<QJsonObject>>(_a[1]))); break;
         case 1: _t->updateUIFromHourlyForecast((*reinterpret_cast< std::add_pointer_t<QJsonObject>>(_a[1]))); break;
         case 2: _t->updateUIFromFiveDayForecast((*reinterpret_cast< std::add_pointer_t<QJsonObject>>(_a[1]))); break;
-        case 3: _t->updateUIFromUVIndex((*reinterpret_cast< std::add_pointer_t<QJsonObject>>(_a[1]))); break;
+        case 3: _t->updateUIAirQuality((*reinterpret_cast< std::add_pointer_t<QJsonObject>>(_a[1]))); break;
         case 4: _t->Map_button(); break;
         case 5: _t->Home_button(); break;
         case 6: _t->Dashboard_button(); break;

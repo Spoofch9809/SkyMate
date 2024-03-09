@@ -2,6 +2,7 @@
 #include "ui_search.h"
 #include "mainwindow.h"
 #include "setting.h"
+#include "mymap.h"
 
 Search::Search(QWidget *parent)
     : QDialog(parent)
@@ -77,6 +78,9 @@ void Search::Home_button()
 void Search::Dashboard_button()
 {
     qDebug() << "DashBoard-Button-Clicked";
+    hide();
+    MainWindow *mainWindow = new MainWindow();
+    mainWindow->show();
 }
 
 void Search::Search_button()
@@ -87,6 +91,9 @@ void Search::Search_button()
 void Search::Map_button()
 {
     qDebug() << "Map-Button-Clicked";
+    hide();
+    myMap *mymap = new myMap();
+    mymap->show();
 }
 
 void Search::Setting_button()

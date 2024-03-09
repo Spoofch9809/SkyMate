@@ -88,6 +88,7 @@ public:
             Search->setObjectName("Search");
         Search->resize(1064, 640);
         Search->setMinimumSize(QSize(1064, 640));
+        Search->setStyleSheet(QString::fromUtf8("background-color: rgb(20, 20, 20);"));
         Left = new QFrame(Search);
         Left->setObjectName("Left");
         Left->setGeometry(QRect(4, 10, 100, 616));
