@@ -30,10 +30,10 @@ public:
     QPushButton *Setting_button;
     QPushButton *Dashboard_button;
     QFrame *Middle;
-    QCheckBox *checkBox;
-    QCheckBox *checkBox_2;
-    QCheckBox *checkBox_3;
-    QCheckBox *checkBox_4;
+    QCheckBox *celsius_checkBox;
+    QCheckBox *fahrenheit_checkBox;
+    QCheckBox *matric_checkBox;
+    QCheckBox *imperial_checkBox;
 
     void setupUi(QDialog *Setting)
     {
@@ -126,18 +126,18 @@ public:
         Middle->setObjectName("Middle");
         Middle->setGeometry(QRect(120, 10, 460, 616));
         Middle->setMaximumSize(QSize(475, 16777215));
-        checkBox = new QCheckBox(Middle);
-        checkBox->setObjectName("checkBox");
-        checkBox->setGeometry(QRect(70, 100, 85, 20));
-        checkBox_2 = new QCheckBox(Middle);
-        checkBox_2->setObjectName("checkBox_2");
-        checkBox_2->setGeometry(QRect(260, 100, 85, 20));
-        checkBox_3 = new QCheckBox(Middle);
-        checkBox_3->setObjectName("checkBox_3");
-        checkBox_3->setGeometry(QRect(70, 260, 85, 20));
-        checkBox_4 = new QCheckBox(Middle);
-        checkBox_4->setObjectName("checkBox_4");
-        checkBox_4->setGeometry(QRect(270, 260, 85, 20));
+        celsius_checkBox = new QCheckBox(Middle);
+        celsius_checkBox->setObjectName("celsius_checkBox");
+        celsius_checkBox->setGeometry(QRect(70, 100, 85, 20));
+        fahrenheit_checkBox = new QCheckBox(Middle);
+        fahrenheit_checkBox->setObjectName("fahrenheit_checkBox");
+        fahrenheit_checkBox->setGeometry(QRect(260, 100, 85, 20));
+        matric_checkBox = new QCheckBox(Middle);
+        matric_checkBox->setObjectName("matric_checkBox");
+        matric_checkBox->setGeometry(QRect(70, 260, 85, 20));
+        imperial_checkBox = new QCheckBox(Middle);
+        imperial_checkBox->setObjectName("imperial_checkBox");
+        imperial_checkBox->setGeometry(QRect(270, 260, 85, 20));
 
         retranslateUi(Setting);
 
@@ -167,10 +167,10 @@ public:
         Dashboard_button->setToolTip(QCoreApplication::translate("Setting", "access for interactive map", nullptr));
 #endif // QT_CONFIG(tooltip)
         Dashboard_button->setText(QString());
-        checkBox->setText(QCoreApplication::translate("Setting", "Celsius", nullptr));
-        checkBox_2->setText(QCoreApplication::translate("Setting", "Fahrenheit", nullptr));
-        checkBox_3->setText(QCoreApplication::translate("Setting", "matric", nullptr));
-        checkBox_4->setText(QCoreApplication::translate("Setting", "imperial", nullptr));
+        celsius_checkBox->setText(QCoreApplication::translate("Setting", "Celsius", nullptr));
+        fahrenheit_checkBox->setText(QCoreApplication::translate("Setting", "Fahrenheit", nullptr));
+        matric_checkBox->setText(QCoreApplication::translate("Setting", "matric", nullptr));
+        imperial_checkBox->setText(QCoreApplication::translate("Setting", "imperial", nullptr));
     } // retranslateUi
 
 };

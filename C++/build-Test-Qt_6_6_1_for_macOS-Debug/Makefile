@@ -805,6 +805,7 @@ login.o: ../Test/login.cpp ../Test/login.h \
 		../Test/search.h \
 		../Test/setting.h \
 		../Test/mymap.h \
+		../Test/signup.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/QFile \
 		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/qfile.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/QTextStream \

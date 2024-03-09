@@ -48,13 +48,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->weathericon_indicator_at_twelve->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
 
     // 7Day Foorecast
-    ui->fifthday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
-    // ui->tuesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
     ui->today_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
     ui->tomorrow_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudy_icon.png"));
-    ui->thirdday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudy_icon.png"));
+    ui->secondday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudy_icon.png"));
     ui->thirdday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudymightrain_icon.png"));
     ui->fourthday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
+    ui->fifthday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
 
     // citylist
     QStringList city_names;
@@ -291,6 +290,7 @@ void MainWindow::updateUIFromApiResponse(const QJsonObject &jsonObject)
         qDebug() << "Empty JSON object received.";
     }
 }
+
 void MainWindow::updateUIAirQuality(QJsonObject AirQualityJsonObject)
 {
     double airquality = AirQualityJsonObject["data"].toObject()["aqi"].toDouble();

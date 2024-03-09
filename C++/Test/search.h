@@ -2,6 +2,10 @@
 #define SEARCH_H
 
 #include <QDialog>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 namespace Ui {
 class Search;
@@ -52,6 +56,8 @@ private slots:
 
 private:
     Ui::Search *ui;
+    // QStringList city_names;
+    // QNetworkReply* makeApiRequest(const QString &link);
 };
 
 #endif // SEARCH_H
