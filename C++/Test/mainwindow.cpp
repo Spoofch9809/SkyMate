@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Setting_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/settings.png"));
 
     // Icons for the middle widgets in labels
-    ui->uvindex_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/uvindex_icon.png"));
+    ui->AirQuality_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/uvindex_icon.png"));
     ui->windspeed_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/windspeed_icon.png"));
     ui->humidity_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/humidity_icon.png"));
     ui->visibility_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/visibility_icon.png"));
@@ -48,13 +48,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->weathericon_indicator_at_twelve->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
 
     // 7Day Foorecast
-    ui->monday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
+    ui->fifthday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
     // ui->tuesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
-    ui->wednesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
-    ui->thursday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudy_icon.png"));
-    ui->friday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudy_icon.png"));
-    ui->saturday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudymightrain_icon.png"));
-    ui->sunday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
+    ui->today_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
+    ui->tomorrow_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudy_icon.png"));
+    ui->thirdday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudy_icon.png"));
+    ui->thirdday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudymightrain_icon.png"));
+    ui->fourthday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
 
     // citylist
     QStringList city_names;
@@ -102,9 +102,10 @@ void MainWindow::Search_button()
 void MainWindow::Map_button()
 {
     qDebug() << "Map-Button-Clicked";
-    // hide();
-    // map = new Map(this);
-    // map->show();
+    hide();
+    mymap = new myMap(this);
+    mymap->show();
+
 }
 
 void MainWindow::Setting_button()
@@ -134,7 +135,7 @@ QNetworkReply* MainWindow::makeApiRequest(const QString &link)
                 QByteArray data = currentWeatherReply->readAll();
                 QJsonDocument jsonResponse = QJsonDocument::fromJson(data);
                 QJsonObject jsonObject = jsonResponse.object();
-                qDebug() << "Data:" << data;
+                //qDebug() << "Data:" << data;
 
                 // Call the function to update UI when the reply is received
                 updateUIFromApiResponse(jsonObject);
@@ -165,27 +166,27 @@ QNetworkReply* MainWindow::makeApiRequest(const QString &link)
 
                     // Clean up the forecastWeather forecast reply
                     forecastWeatherReply->deleteLater();
+                    QString cityName = jsonObject.value("name").toString();
+                    QUrl AirQualityurl("http://api.waqi.info/feed/"+ cityName +"/?token=ddc8a27841f603ce2d4cf23e9350a59567db16f4");
+                    QNetworkRequest AirQualityRequest(AirQualityurl);
 
-                    QUrl UVindexurl("https://zylalabs.com/api/553/uv+index+real-time+and+forecasted+api/388/uv+index+real-time");
-                    QNetworkRequest UVindexRequest(UVindexurl);
-
-                    QNetworkReply *UVindexReply = manager->get(UVindexRequest);
+                    QNetworkReply *AirQualityReply = manager->get(AirQualityRequest);
 
                     // Connect the finished signal for the UV index request
-                    connect(UVindexReply, &QNetworkReply::finished, this, [=]() {
-                        if (UVindexReply->error() == QNetworkReply::NoError) {
-                            QByteArray UVindexData = UVindexReply->readAll();
-                            QJsonDocument UVindexJsonResponse = QJsonDocument::fromJson(UVindexData);
-                            QJsonObject UVindexJsonObject = UVindexJsonResponse.object();
-
+                    connect(AirQualityReply, &QNetworkReply::finished, this, [=]() {
+                        if (AirQualityReply->error() == QNetworkReply::NoError) {
+                            QByteArray AirQualityData = AirQualityReply->readAll();
+                            QJsonDocument AirQualityJsonResponse = QJsonDocument::fromJson(AirQualityData);
+                            QJsonObject AirQualityJsonObject = AirQualityJsonResponse.object();
                             // Process the UV index data as needed
-                            updateUIFromUVIndex(UVindexJsonObject);
+                            qDebug() << "AirQ Data: " << AirQualityData;
+                            updateUIAirQuality(AirQualityJsonObject);
                         } else {
-                            qDebug() << "Error fetching UV index data: " << UVindexReply->errorString();
+                            qDebug() << "Error fetching UV index data: " << AirQualityReply->errorString();
                         }
 
                         // Clean up the UV index reply
-                        UVindexReply->deleteLater();
+                        AirQualityReply->deleteLater();
                     });
                 });
             }
@@ -290,22 +291,20 @@ void MainWindow::updateUIFromApiResponse(const QJsonObject &jsonObject)
         qDebug() << "Empty JSON object received.";
     }
 }
-
-void MainWindow::updateUIFromUVIndex(QJsonObject UVindexJsonObject) {
-    // Convert the UV index value to a string
-    QString UVindexString = QString::number(UVindexJsonObject.value("uv_index").toDouble());
-
-    // Set the text of the UV index label
-    ui->uvindex_value->setText(UVindexString);
+void MainWindow::updateUIAirQuality(QJsonObject AirQualityJsonObject)
+{
+    double airquality = AirQualityJsonObject["data"].toObject()["aqi"].toDouble();
+    qDebug() << "airquality" << airquality;
+    ui->AirQuality_value->setText(QString::number(airquality, 'f', 0));
 }
 
 void MainWindow::updateUIFromHourlyForecast(QJsonObject forecastWeatherJsonObject)
 {
-    qDebug() << "Entering updateUIFromHourlyForecast function\n\n\n\n";
+    //qDebug() << "Entering updateUIFromHourlyForecast function/n/n/n/n";
 
 
     if (forecastWeatherJsonObject.isEmpty()) {
-        qDebug() << "Empty hourly forecast JSON object received.";
+        //qDebug() << "Empty hourly forecast JSON object received.";
         // Handle the case when no hourly forecast data is available (e.g., show a message or clear UI elements)
         ui->weathericon_indicator_at_six->clear();
         ui->weathericon_indicator_at_nine->clear();
@@ -328,7 +327,7 @@ void MainWindow::updateUIFromHourlyForecast(QJsonObject forecastWeatherJsonObjec
         // Extract relevant information from the JSON object
         QString dateTimeString = hourlyObject["dt_txt"].toString();
         double hourlyTemp = hourlyObject["main"].toObject()["temp"].toDouble();
-        qDebug() << "Time:" << dateTimeString << " Hourly Temperature:" << hourlyTemp;
+        //qDebug() << "Time:" << dateTimeString << " Hourly Temperature:" << hourlyTemp;
         QString hourly_icon = hourlyObject["weather"].toArray()[0].toObject()["icon"].toString();
         hourlyTemp -= 273.15;
 
@@ -444,370 +443,150 @@ void setWrappedText(QLabel* label, const QString& text) {
     label->setWordWrap(true);
     label->setText(text);
 }
+
+void setWeatherIcon(QLabel* iconLabel, const QString& iconCode)
+{
+    if (iconCode == "01d" || iconCode == "01n") {
+        iconLabel->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
+    } else if (iconCode == "02d" || iconCode == "02n") {
+        iconLabel->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/Cloudy_icon.png"));
+    } else if (iconCode == "03d" || iconCode == "03n") {
+        iconLabel->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/scattered_clouds_icon.png"));
+    } else if (iconCode == "04d" || iconCode == "04n") {
+        iconLabel->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/broken_clouds_icon.png"));
+    } else if (iconCode == "10d" || iconCode == "09d" || iconCode == "10n" || iconCode == "9n") {
+        iconLabel->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudymightrain_icon.png"));
+    } else if (iconCode == "11d" || iconCode == "11n") {
+        iconLabel->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/storm_icon.png"));
+    } else if (iconCode == "13d" || iconCode == "13n") {
+        iconLabel->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/snowy_icon.png"));
+    } else if (iconCode == "50d" || iconCode == "50n") {
+        iconLabel->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/mist_icon.png"));
+    } else {
+        iconLabel->clear();
+    }
+}
 void MainWindow::updateUIFromFiveDayForecast(QJsonObject forecastWeatherJsonObject)
 {
-    //qDebug() << "/nforecastWeatherData(fivedays) : " << forecastWeatherJsonObject;
+    //qDebug() << "Five day Data: " << forecastWeatherJsonObject;
     if (forecastWeatherJsonObject.isEmpty()) {
-        //qDebug() << "Empty five-day forecast JSON object received.";
-        // Display an alert message or update UI elements with "N/A"
-        ui->monday_temp->setText("N/A");
-        // ui->tuesday_temp->setText("N/A");
-        ui->wednesday_temp->setText("N/A");
-        ui->thursday_temp->setText("N/A");
-        ui->friday_temp->setText("N/A");
+        ui->fifthday_temp->setText("N/A");
+        ui->today_temp->setText("N/A");
+        ui->tomorrow_temp->setText("N/A");
+        ui->tomorrow_temp->setText("N/A");
         return;
     }
 
-    if (!forecastWeatherJsonObject.isEmpty()) {
-        // Process the five-day forecast data as needed
-        // Extract relevant information from the JSON object and update the UI
+    // Example: Update daily temperature values
+    QJsonArray dailyList = forecastWeatherJsonObject["list"].toArray();
 
-        // Example: Update daily temperature values
-        QJsonArray dailyList = forecastWeatherJsonObject["list"].toArray();
+    // Clear existing data from UI elements
+    ui->fifthday_temp->clear();
+    ui->today_temp->clear();
+    ui->tomorrow_temp->clear();
+    ui->tomorrow_temp->clear();
+    ui->secondday_temp->clear();
+    ui->fourthday_temp->clear();
 
-        // Clear existing data from UI elements
-        ui->monday_temp->clear();
-        // ui->tuesday_temp->clear();
-        ui->wednesday_temp->clear();
-        ui->thursday_temp->clear();
-        ui->friday_temp->clear();
-        ui->saturday_temp->clear();
-        ui->sunday_temp->clear();
+    // Get the current date
+    QDateTime currentDateTime = QDateTime::currentDateTimeUtc();
+    QDate currentDate = currentDateTime.date();
 
-        QString previousTemp;
-        QString previousDescription;
-        QPixmap previousIcon;
+    for (const QJsonValue &dailyData : dailyList) {
+        QJsonObject dailyObject = dailyData.toObject();
+        QString dateString = dailyObject["dt_txt"].toString();
 
-        for (const QJsonValue &dailyData : dailyList) {
-            QJsonObject dailyObject = dailyData.toObject();
-            QString daily_weather = dailyObject["weather"].toArray()[0].toObject()["description"].toString();
-            QString daily_icon = dailyObject["weather"].toArray()[0].toObject()["icon"].toString();
-            QString dateString = dailyObject["dt_txt"].toString();
-            // qDebug() << "Date" << dateString;
-            // qDebug() << "Weather" << daily_weather;
-            // qDebug() << "Icon" << daily_icon;
+        // Parse the date string into QDateTime
+        QDateTime dateTime = QDateTime::fromString(dateString, "yyyy-MM-dd hh:mm:ss");
+        QDate date = dateTime.date();
+        // Adjust to the local time zone if needed
+        dateTime = dateTime.toLocalTime();
 
-            // Parse the date string into QDate
-            QDate date;
-            QStringList dateList = dateString.split(' ')[0].split('-');
-            if (dateList.size() == 3) {
-                date = QDate(dateList[0].toInt(), dateList[1].toInt(), dateList[2].toInt());
-            } else {
-                qDebug() << "Unknown date format in API data.";
-                continue;
-            }
-            //qDebug() << "Parsed Date:" << date;
-
-            // Extract maximum and minimum temperatures
-            double dailyMaxTemp = dailyObject["main"].toObject()["temp_max"].toDouble();
-            double dailyMinTemp = dailyObject["main"].toObject()["temp_min"].toDouble();
-            if (dailyMaxTemp == 0 && dailyMinTemp == 0) {
-                QString temperatureText = "N/A";
-            } else {
-                dailyMaxTemp -= 273.15;
-                dailyMinTemp -= 273.15;
-
-                QString maxTempString = QString::number(dailyMaxTemp, 'f', 0);  // One decimal place
-                QString minTempString = QString::number(dailyMinTemp, 'f', 0);  // One decimal place
-
-                QString temperatureText = QString("%1/%2°C").arg(maxTempString, minTempString);
-
-
-
-                // Update the corresponding QLabel based on the day of the week
-                if (date.dayOfWeek() == Qt::Monday) {
-                    setWrappedText(ui->monday_description, daily_weather);
-                    ui->monday_temp->setText(temperatureText);
-                    if (daily_icon == "01d" || daily_icon == "01n"){
-                        ui->monday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
-                    }else if (daily_icon == "02d"|| daily_icon == "02n"){
-                        ui->monday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/Cloudy_icon.png"));
-                    }
-                    else if (daily_icon == "03d" || daily_icon == "03n"){
-                        ui->monday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/scattered_clouds_icon.png"));
-                    }
-                    else if (daily_icon == "04d"|| daily_icon == "04n"){
-                        ui->monday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/broken_clouds_icon.png"));
-                    }
-                    else if (daily_icon == "10d" || daily_icon == "09d" || daily_icon == "10n" || daily_icon == "9n"){
-                        ui->monday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudymightrain_icon.png"));
-                    }
-                    else if (daily_icon == "11d" || daily_icon == "11n"){
-                        ui->monday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/storm_icon.png"));
-                    }
-                    else if (daily_icon == "13d" || daily_icon == "13d"){
-                        ui->monday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/snowy_icon.png"));
-                    }
-                    else if (daily_icon == "50d" || daily_icon == "50d"){
-                        ui->monday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/mist_icon.png"));
-                    }
-                    else {
-                        ui->monday_icon->clear();
-                    }
-                    if (ui->monday_temp->text() == "N/A") {
-                        ui->monday_temp->setText(previousTemp);
-                        setWrappedText(ui->monday_description, previousDescription);
-                        ui->monday_icon->setPixmap(previousIcon);
-                    }
-
-                    // Save the current day's data for the next iteration
-                    previousTemp = ui->monday_temp->text();
-                    previousDescription = ui->monday_description->text();
-                    previousIcon = ui->monday_icon->pixmap();
-
-                    qDebug() << "Temp: " << temperatureText;
-                // } else if (date.dayOfWeek() == Qt::Tuesday) {
-                //     ui->tuesday_temp->setText(temperatureText);
-                //     setWrappedText(ui->tuesday_description, daily_weather);
-                //     if (daily_icon == "01d" || daily_icon == "01n"){
-                //         ui->tuesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
-                //     }else if (daily_icon == "02d"|| daily_icon == "02n"){
-                //         ui->tuesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/Cloudy_icon.png"));
-                //     }
-                //     else if (daily_icon == "03d" || daily_icon == "03n"){
-                //         ui->tuesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/scattered_clouds_icon.png"));
-                //     }
-                //     else if (daily_icon == "04d"|| daily_icon == "04n"){
-                //         ui->tuesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/broken_clouds_icon.png"));
-                //     }
-                //     else if (daily_icon == "10d" || daily_icon == "09d" || daily_icon == "10n" || daily_icon == "9n"){
-                //         ui->tuesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudymightrain_icon.png"));
-                //     }
-                //     else if (daily_icon == "11d" || daily_icon == "11n"){
-                //         ui->tuesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/storm_icon.png"));
-                //     }
-                //     else if (daily_icon == "13d" || daily_icon == "13n"){
-                //         ui->tuesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/snowy_icon.png"));
-                //     }
-                //     else if (daily_icon == "50d" || daily_icon == "50d"){
-                //         ui->tuesday_icon->setPixmap(QPixmap("/OOP/CPP-Project--SkyMate/C++/Icons/mist_icon.png"));
-                //     }
-                //     else {
-                //         ui->tuesday_icon->clear();
-                //     }
-                //     if (ui->tuesday_temp->text() == "N/A") {
-                //         ui->tuesday_temp->setText(previousTemp);
-                //         setWrappedText(ui->tuesday_description, previousDescription);
-                //         ui->tuesday_icon->setPixmap(previousIcon);
-                //     }
-                //     // Save the current day's data for the next iteration
-                //     previousTemp = ui->tuesday_temp->text();
-                //     previousDescription = ui->tuesday_description->text();
-                //     previousIcon = ui->tuesday_icon->pixmap();
-
-                    //qDebug() << "Temp: " << temperatureText;
-                } else if (date.dayOfWeek() == Qt::Wednesday) {
-                    ui->wednesday_temp->setText(temperatureText);
-                    setWrappedText(ui->wednesday_description, daily_weather);
-                    //qDebug() << "Temp: " << temperatureText;
-                    if (daily_icon == "01d" || daily_icon == "01n"){
-                        ui->wednesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
-                    }else if (daily_icon == "02d"|| daily_icon == "02n"){
-                        ui->wednesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/Cloudy_icon.png"));
-                    }
-                    else if (daily_icon == "03d" || daily_icon == "03n"){
-                        ui->wednesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/scattered_clouds_icon.png"));
-                    }
-                    else if (daily_icon == "04d"|| daily_icon == "04n"){
-                        ui->wednesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/broken_clouds_icon.png"));
-                    }
-                    else if (daily_icon == "10d" || daily_icon == "09d" || daily_icon == "10n" || daily_icon == "9n"){
-                        ui->wednesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudymightrain_icon.png"));
-                    }
-                    else if (daily_icon == "11d" || daily_icon == "11n"){
-                        ui->wednesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/storm_icon.png"));
-                    }
-                    else if (daily_icon == "13d" || daily_icon == "13d"){
-                        ui->wednesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/snowy_icon.png"));
-                    }
-                    else if (daily_icon == "50d" || daily_icon == "50n"){
-                        ui->wednesday_icon->setPixmap(QPixmap("/OOP/CPP-Project--SkyMate/C++/Icons/mist_icon.png"));
-                    }
-                    else {
-                        ui->wednesday_icon->clear();
-                    }
-                    if (ui->wednesday_temp->text() == "N/A") {
-                        ui->wednesday_temp->setText(previousTemp);
-                        setWrappedText(ui->wednesday_description, previousDescription);
-                        ui->wednesday_icon->setPixmap(previousIcon);
-                    }
-
-                    // Save the current day's data for the next iteration
-                    previousTemp = ui->wednesday_temp->text();
-                    previousDescription = ui->wednesday_description->text();
-                    previousIcon = ui->wednesday_icon->pixmap();
-
-                } else if (date.dayOfWeek() == Qt::Thursday) {
-                    ui->thursday_temp->setText(temperatureText);
-                    setWrappedText(ui->thursday_description, daily_weather);
-                    //qDebug() << "Temp: " << temperatureText;
-                    if (daily_icon == "01d" || daily_icon == "01n"){
-                        ui->thursday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
-                    }else if (daily_icon == "02d"|| daily_icon == "02n"){
-                        ui->thursday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/Cloudy_icon.png"));
-                    }
-                    else if (daily_icon == "03d" || daily_icon == "03n"){
-                        ui->thursday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/scattered_clouds_icon.png"));
-                    }
-                    else if (daily_icon == "04d"|| daily_icon == "04n"){
-                        ui->thursday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/broken_clouds_icon.png"));
-                    }
-                    else if (daily_icon == "10d" || daily_icon == "09d" || daily_icon == "10n" || daily_icon == "9n"){
-                        ui->thursday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudymightrain_icon.png"));
-                    }
-                    else if (daily_icon == "11d" || daily_icon == "11n"){
-                        ui->thursday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/storm_icon.png"));
-                    }
-                    else if (daily_icon == "13d" || daily_icon == "13d"){
-                        ui->thursday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/snowy_icon.png"));
-                    }
-                    else if (daily_icon == "50d" || daily_icon == "50d"){
-                        ui->thursday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/mist_icon.png"));
-                    }
-                    else {
-                        ui->thursday_icon->clear();
-                    }
-                    if (ui->thursday_temp->text() == "N/A") {
-                        ui->thursday_temp->setText(previousTemp);
-                        setWrappedText(ui->thursday_description, previousDescription);
-                        ui->thursday_icon->setPixmap(previousIcon);
-                    }
-
-                    // Save the current day's data for the next iteration
-                    previousTemp = ui->thursday_temp->text();
-                    previousDescription = ui->thursday_description->text();
-                    previousIcon = ui->thursday_icon->pixmap();
-
-                } else if (date.dayOfWeek() == Qt::Friday) {
-                    ui->friday_temp->setText(temperatureText);
-                    setWrappedText(ui->friday_description, daily_weather);
-                    //qDebug() << "Temp: " << temperatureText;
-                    if (daily_icon == "01d" || daily_icon == "01n"){
-                        ui->friday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/sun_icon.png"));
-                    }else if (daily_icon == "02d"|| daily_icon == "02n"){
-                        ui->friday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/Cloudy_icon.png"));
-                    }
-                    else if (daily_icon == "03d" || daily_icon == "03n"){
-                        ui->friday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/scattered_clouds_icon.png"));
-                    }
-                    else if (daily_icon == "04d"|| daily_icon == "04n"){
-                        ui->friday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/broken_clouds_icon.png"));
-                    }
-                    else if (daily_icon == "10d" || daily_icon == "09d" || daily_icon == "10n" || daily_icon == "9n"){
-                        ui->friday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/cloudymightrain_icon.png"));
-                    }
-                    else if (daily_icon == "11d" || daily_icon == "11n"){
-                        ui->friday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/storm_icon.png"));
-                    }
-                    else if (daily_icon == "13d" || daily_icon == "13d"){
-                        ui->friday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/snowy_icon.png"));
-                    }
-                    else if (daily_icon == "50d" || daily_icon == "50d"){
-                        ui->friday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/mist_icon.png"));
-                    }
-                    else {
-                        ui->friday_icon->clear();
-                    }
-
-                    if (ui->friday_temp->text() == "N/A") {
-                        ui->friday_temp->setText(previousTemp);
-                        setWrappedText(ui->friday_description, previousDescription);
-                        ui->friday_icon->setPixmap(previousIcon);
-                    }
-
-                    // Save the current day's data for the next iteration
-                    previousTemp = ui->friday_temp->text();
-                    previousDescription = ui->friday_description->text();
-                    previousIcon = ui->friday_icon->pixmap();
-
-                } else if (date.dayOfWeek() == Qt::Saturday) {
-                    ui->saturday_temp->setText(temperatureText);
-                    setWrappedText(ui->saturday_description, daily_weather);
-                    //qDebug() << "Temp: " << temperatureText;
-                    if (daily_icon == "01d" || daily_icon == "01n"){
-                        ui->saturday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/sun_icon.png"));
-                    }else if (daily_icon == "02d"|| daily_icon == "02n"){
-                        ui->saturday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/Cloudy_icon.png"));
-                    }
-                    else if (daily_icon == "03d" || daily_icon == "03n"){
-                        ui->saturday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/scattered_clouds_icon.png"));
-                    }
-                    else if (daily_icon == "04d"|| daily_icon == "04n"){
-                        ui->saturday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/broken_clouds_icon.png"));
-                    }
-                    else if (daily_icon == "10d" || daily_icon == "09d" || daily_icon == "10n" || daily_icon == "9n"){
-                        ui->saturday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/cloudymightrain_icon.png"));
-                    }
-                    else if (daily_icon == "11d" || daily_icon == "11n"){
-                        ui->saturday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/storm_icon.png"));
-                    }
-                    else if (daily_icon == "13d" || daily_icon == "13d"){
-                        ui->saturday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/snowy_icon.png"));
-                    }
-                    else if (daily_icon == "50d" || daily_icon == "50d"){
-                        ui->saturday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/mist_icon.png"));
-                    }
-                    else {
-                        ui->saturday_icon->clear();
-                    }
-                    if (ui->saturday_temp->text() == "N/A") {
-                        ui->saturday_temp->setText(previousTemp);
-                        setWrappedText(ui->saturday_description, previousDescription);
-                        ui->saturday_icon->setPixmap(previousIcon);
-                    }
-
-                    // Save the current day's data for the next iteration
-                    previousTemp = ui->saturday_temp->text();
-                    previousDescription = ui->saturday_description->text();
-                    previousIcon = ui->saturday_icon->pixmap();
-
-                } else if (date.dayOfWeek() == Qt::Sunday) {
-                    ui->sunday_temp->setText(temperatureText);
-                    setWrappedText(ui->sunday_description, daily_weather);
-                    //qDebug() << "Temp: " << temperatureText;
-                    if (daily_icon == "01d" || daily_icon == "01n"){
-                        ui->sunday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/sun_icon.png"));
-                    }else if (daily_icon == "02d"|| daily_icon == "02n"){
-                        ui->sunday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/Cloudy_icon.png"));
-                    }
-                    else if (daily_icon == "03d" || daily_icon == "03n"){
-                        ui->sunday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/scattered_clouds_icon.png"));
-                    }
-                    else if (daily_icon == "04d"|| daily_icon == "04n"){
-                        ui->sunday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/broken_clouds_icon.png"));
-                    }
-                    else if (daily_icon == "10d" || daily_icon == "09d" || daily_icon == "10n" || daily_icon == "9n"){
-                        ui->sunday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/cloudymightrain_icon.png"));
-                    }
-                    else if (daily_icon == "11d" || daily_icon == "11n"){
-                        ui->sunday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/storm_icon.png"));
-                    }
-                    else if (daily_icon == "13d" || daily_icon == "13d"){
-                        ui->sunday_icon->setPixmap(QPixmap("/Users/User/Documents/SkyMate/C++/Icons/snowy_icon.png"));
-                    }
-                    else if (daily_icon == "50d" || daily_icon == "50d"){
-                        ui->sunday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/mist_icon.png"));
-                    }
-                    else {
-                        ui->sunday_icon->clear();
-                    }
-                    if (ui->sunday_temp->text() == "N/A") {
-                        ui->sunday_temp->setText(previousTemp);
-                        setWrappedText(ui->sunday_description, previousDescription);
-                        ui->sunday_icon->setPixmap(previousIcon);
-                    }
-
-                    // Save the current day's data for the next iteration
-                    previousTemp = ui->sunday_temp->text();
-                    previousDescription = ui->sunday_description->text();
-                    previousIcon = ui->sunday_icon->pixmap();
+        QString dayLabel;
+        if (date == currentDate) {
+            dayLabel = "today_temp";
+        } else if (date == currentDate.addDays(1)) {
+            dayLabel = "tomorrow_temp";
+        } else if (date == currentDate.addDays(2)) {
+            dayLabel = "secondday_temp";
+        } else if (date == currentDate.addDays(3)) {
+            dayLabel = "thirdday_temp";
+        } else if (date == currentDate.addDays(4)) {
+            dayLabel = "fourthday_temp";
+        } else if (date == currentDate.addDays(5)) {
+            dayLabel = "fifthday_temp";
+        } else {
+            qDebug() << "Invalid date in API data.";
+            continue;
+        }
+        QString iconCode = "";  // Initialize with an appropriate default value
+        if (dailyObject.contains("weather")) {
+            QJsonArray weatherArray = dailyObject["weather"].toArray();
+            if (!weatherArray.isEmpty()) {
+                QJsonObject weatherObject = weatherArray.first().toObject();
+                if (weatherObject.contains("icon")) {
+                    iconCode = weatherObject["icon"].toString();
                 }
             }
         }
-    } else {
-        qDebug() << "Empty five-day forecast JSON object received.";
+        QString description = "N/A";  // Default value if "description" is not found
+        if (dailyObject.contains("weather")) {
+            QJsonArray weatherArray = dailyObject["weather"].toArray();
+            if (!weatherArray.isEmpty()) {
+                QJsonObject weatherObject = weatherArray.first().toObject();
+                if (weatherObject.contains("description")) {
+                    description = weatherObject["description"].toString();
+                }
+            }
+        }
+        // Extract maximum and minimum temperatures
+        double dailyMaxTemp = dailyObject["main"].toObject()["temp_max"].toDouble();
+        double dailyMinTemp = dailyObject["main"].toObject()["temp_min"].toDouble();
+
+        QString temperatureText;
+
+        if (dailyMaxTemp == 0 && dailyMinTemp == 0) {
+            temperatureText = "N/A";
+        } else {
+            dailyMaxTemp -= 273.15;
+            dailyMinTemp -= 273.15;
+
+            QString maxTempString = QString::number(dailyMaxTemp, 'f', 0);  // One decimal place
+            QString minTempString = QString::number(dailyMinTemp, 'f', 0);  // One decimal place
+            temperatureText = QString("%1/%2°C").arg(maxTempString, minTempString);
+        }
+
+        // Update the corresponding QLabel based on the day of the week
+        if (dayLabel == "today_temp") {
+            ui->today_temp->setText(temperatureText);
+            setWrappedText(ui->today_description,description);
+            setWeatherIcon(ui->today_icon, iconCode);
+        } else if (dayLabel == "tomorrow_temp") {
+            ui->tomorrow_temp->setText(temperatureText);
+            setWrappedText(ui->tomorrow_description, description);
+            setWeatherIcon(ui->tomorrow_icon, iconCode);
+        } else if (dayLabel == "secondday_temp") {
+            ui->tomorrow_temp->setText(temperatureText);
+            setWrappedText(ui->secondday_description, description);
+            setWeatherIcon(ui->secondday_icon, iconCode);
+        } else if (dayLabel == "thirdday_temp") {
+            ui->secondday_temp->setText(temperatureText);
+            setWrappedText(ui->thirdday_description, description);
+            setWeatherIcon(ui->thirdday_icon, iconCode);
+        } else if (dayLabel == "fourthday_temp") {
+            ui->fourthday_temp->setText(temperatureText);
+            setWrappedText(ui->fourthday_description,description);
+            setWeatherIcon(ui->fourthday_icon, iconCode);
+        } else if (dayLabel == "fifthday_temp") {
+            ui->fifthday_temp->setText(temperatureText);
+            setWrappedText(ui->fifthday_description,description);
+            setWeatherIcon(ui->fifthday_icon, iconCode);
+        }
     }
 }
+
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -831,6 +610,7 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
             updateUIFromApiResponse(jsonObject);
             updateUIFromFiveDayForecast(jsonObject);
             updateUIFromHourlyForecast(jsonObject);
+            updateUIAirQuality(jsonObject);
 
         } else {
             qDebug() << "Error fetching data for City " << cityName << ": " << reply->errorString();
@@ -845,4 +625,3 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
 ///////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////////////
-

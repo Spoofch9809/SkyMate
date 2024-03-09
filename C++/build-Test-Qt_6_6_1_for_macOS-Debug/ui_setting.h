@@ -12,6 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QPushButton>
@@ -29,6 +30,10 @@ public:
     QPushButton *Setting_button;
     QPushButton *Dashboard_button;
     QFrame *Middle;
+    QCheckBox *checkBox;
+    QCheckBox *checkBox_2;
+    QCheckBox *checkBox_3;
+    QCheckBox *checkBox_4;
 
     void setupUi(QDialog *Setting)
     {
@@ -36,6 +41,7 @@ public:
             Setting->setObjectName("Setting");
         Setting->resize(1064, 640);
         Setting->setMinimumSize(QSize(1064, 640));
+        Setting->setStyleSheet(QString::fromUtf8("background-color: rgb(20, 20, 20);"));
         Right = new QFrame(Setting);
         Right->setObjectName("Right");
         Right->setGeometry(QRect(596, 10, 460, 616));
@@ -120,6 +126,18 @@ public:
         Middle->setObjectName("Middle");
         Middle->setGeometry(QRect(120, 10, 460, 616));
         Middle->setMaximumSize(QSize(475, 16777215));
+        checkBox = new QCheckBox(Middle);
+        checkBox->setObjectName("checkBox");
+        checkBox->setGeometry(QRect(70, 100, 85, 20));
+        checkBox_2 = new QCheckBox(Middle);
+        checkBox_2->setObjectName("checkBox_2");
+        checkBox_2->setGeometry(QRect(210, 100, 85, 20));
+        checkBox_3 = new QCheckBox(Middle);
+        checkBox_3->setObjectName("checkBox_3");
+        checkBox_3->setGeometry(QRect(70, 140, 85, 20));
+        checkBox_4 = new QCheckBox(Middle);
+        checkBox_4->setObjectName("checkBox_4");
+        checkBox_4->setGeometry(QRect(210, 140, 85, 20));
 
         retranslateUi(Setting);
 
@@ -149,6 +167,10 @@ public:
         Dashboard_button->setToolTip(QCoreApplication::translate("Setting", "access for interactive map", nullptr));
 #endif // QT_CONFIG(tooltip)
         Dashboard_button->setText(QString());
+        checkBox->setText(QCoreApplication::translate("Setting", "Celsius", nullptr));
+        checkBox_2->setText(QCoreApplication::translate("Setting", "Fahrenheit", nullptr));
+        checkBox_3->setText(QCoreApplication::translate("Setting", "matric", nullptr));
+        checkBox_4->setText(QCoreApplication::translate("Setting", "imperial", nullptr));
     } // retranslateUi
 
 };

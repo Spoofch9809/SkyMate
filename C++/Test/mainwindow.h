@@ -8,7 +8,7 @@
 #include <QJsonObject>
 #include "search.h"
 #include "setting.h"
-// #include "map.h"
+#include "mymap.h"
 
 using namespace std;
 
@@ -34,7 +34,7 @@ public slots:
 
     void updateUIFromFiveDayForecast(QJsonObject forecastWeatherJsonObject);
 
-    void updateUIFromUVIndex(QJsonObject UVindexJsonObject);
+    void updateUIAirQuality(QJsonObject AirQalityJsonObject);
 
     // void updateLocationLabel(QString LocationText);
 
@@ -67,6 +67,7 @@ private:
     QNetworkReply* makeApiRequest(const QString &link);
     Search *search;
     Setting *setting;
+    myMap *mymap;
     // Map *map;
     // void updateUIFromApiResponse(QNetworkReply* reply);
 

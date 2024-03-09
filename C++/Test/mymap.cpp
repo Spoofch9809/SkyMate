@@ -1,12 +1,12 @@
-#include "setting.h"
-#include "ui_setting.h"
-#include "mainwindow.h"
-#include "search.h"
 #include "mymap.h"
+#include "ui_mymap.h"
+#include "search.h"
+#include "mainwindow.h"
+#include "setting.h"
 
-Setting::Setting(QWidget *parent)
+myMap::myMap(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::Setting)
+    , ui(new Ui::myMap)
 {
     ui->setupUi(this);
     // Icons for the left widget menu bar in buttons
@@ -53,20 +53,20 @@ Setting::Setting(QWidget *parent)
         "Kabul" << "Kaduna" << "Kampala" << "Kano" << "Kanpur" << "Kaohsiung" << "Karachi" << "Karaj" << "Kathmandu" << "Kawasaki" << "Kharkiv" << "Khartoum" << "Khulna" << "Kigali" << "Kingsburg" << "Kingston" << "Kingstown" << "Kinshasa" << "Kobe" << "Kolkata" << "Kota Bharu" << "Kowloon" << "Kuala Lumpur" << "Kumasi" << "Kuwait" << "Kyiv" << "Kyoto" <<
         "La Paz" << "Lagos" << "Lahore" << "Libreville" << "Lilongwe" << "Lima" << "Lisbon" << "Ljubljana" << "Lome" << "London" << "Los Angeles" << "Luanda" << "Lubumbashi" << "Lusaka" << "Luxembourg" << "Macau" << "Madrid" << "Majuro" << "Makassar" << "Malabo" << "Male" << "Mamoudzou" << "Managua" << "Manama" << "Manaus" << "Manila" << "Maputo" << "Maracaibo" << "Maracay" << "Mariehamn" << "Marigot" << "Maseru" << "Mashhad" << "Mbabane" << "Mecca" << "Medan" << "Medellin" << "Medina" << "Melbourne" << "Mexico City" << "Miami" << "Minsk" << "Mogadishu" << "Monaco" << "Monrovia" << "Montevideo" << "Montreal" << "Moroni" << "Moscow" << "Mosul" << "Multan" << "Mumbai" << "Muscat" <<
         "N'Djamena" << "Nagoya" << "Nairobi" << "Nanchong" << "Nanjing" << "Nassau" << "Nay Pyi Taw" << "New York" << "Niamey" << "Nicosia" << "Nouakchott" << "Noumea" << "Novosibirsk" << "Nuku'alofa" << "Nur-Sultan" << "Nuuk" << "Oranjestad";
-    // ui->comboBox->addItems(city_names);
+    ui->comboBox->addItems(city_names);
 
-    connect(ui->Home_button, &QPushButton::clicked, this, &Setting::Home_button);
-    connect(ui->Dashboard_button, &QPushButton::clicked, this, &Setting::Dashboard_button);
-    connect(ui->Search_button, &QPushButton::clicked, this, &Setting::Search_button);
-    connect(ui->Map_button, &QPushButton::clicked, this, &Setting::Map_button);
-    connect(ui->Setting_button, &QPushButton::clicked, this, &Setting::Setting_button);
+    connect(ui->Home_button, &QPushButton::clicked, this, &myMap::Home_button);
+    connect(ui->Dashboard_button, &QPushButton::clicked, this, &myMap::Dashboard_button);
+    connect(ui->Search_button, &QPushButton::clicked, this, &myMap::Search_button);
+    connect(ui->Map_button, &QPushButton::clicked, this, &myMap::Map_button);
+    connect(ui->Setting_button, &QPushButton::clicked, this, &myMap::Setting_button);
 }
 
-Setting::~Setting()
+myMap::~myMap()
 {
     delete ui;
 }
-void Setting::Home_button()
+void myMap::Home_button()
 {
     qDebug() << "Home-Button-Clicked";
     hide();
@@ -74,7 +74,7 @@ void Setting::Home_button()
     mainWindow->show();
 }
 
-void Setting::Dashboard_button()
+void myMap::Dashboard_button()
 {
     qDebug() << "DashBoard-Button-Clicked";
     hide();
@@ -82,7 +82,7 @@ void Setting::Dashboard_button()
     mainWindow->show();
 }
 
-void Setting::Search_button()
+void myMap::Search_button()
 {
     qDebug() << "Search-Button-Clicked";
     hide();
@@ -90,17 +90,16 @@ void Setting::Search_button()
     search->show();
 }
 
-void Setting::Map_button()
+void myMap::Map_button()
 {
     qDebug() << "Map-Button-Clicked";
-    hide();
-    myMap *mymap = new myMap();
-    mymap->show();
 }
 
-void Setting::Setting_button()
+void myMap::Setting_button()
 {
     qDebug() << "Setting-Button-Clicked";
+    hide();
+    Setting *setting = new Setting();
+    setting->show();
 }
-
 

@@ -52,21 +52,33 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../Test/main.cpp \
+SOURCES       = ../Test/login.cpp \
+		../Test/main.cpp \
 		../Test/mainwindow.cpp \
+		../Test/mymap.cpp \
 		../Test/search.cpp \
-		../Test/setting.cpp qrc_maps.cpp \
+		../Test/setting.cpp \
+		../Test/signup.cpp qrc_maps.cpp \
+		moc_login.cpp \
 		moc_mainwindow.cpp \
+		moc_mymap.cpp \
 		moc_search.cpp \
-		moc_setting.cpp
-OBJECTS       = main.o \
+		moc_setting.cpp \
+		moc_signup.cpp
+OBJECTS       = login.o \
+		main.o \
 		mainwindow.o \
+		mymap.o \
 		search.o \
 		setting.o \
+		signup.o \
 		qrc_maps.o \
+		moc_login.o \
 		moc_mainwindow.o \
+		moc_mymap.o \
 		moc_search.o \
-		moc_setting.o
+		moc_setting.o \
+		moc_signup.o
 DIST          = ../../../../Qt-framework/6.6.1/macos/mkspecs/features/spec_pre.prf \
 		../../../../Qt-framework/6.6.1/macos/mkspecs/features/device_config.prf \
 		../../../../Qt-framework/6.6.1/macos/mkspecs/common/unix.conf \
@@ -231,12 +243,18 @@ DIST          = ../../../../Qt-framework/6.6.1/macos/mkspecs/features/spec_pre.p
 		../../../../Qt-framework/6.6.1/macos/mkspecs/features/exceptions.prf \
 		../../../../Qt-framework/6.6.1/macos/mkspecs/features/yacc.prf \
 		../../../../Qt-framework/6.6.1/macos/mkspecs/features/lex.prf \
-		../Test/Test.pro ../Test/mainwindow.h \
+		../Test/Test.pro ../Test/login.h \
+		../Test/mainwindow.h \
+		../Test/mymap.h \
 		../Test/search.h \
-		../Test/setting.h ../Test/main.cpp \
+		../Test/setting.h \
+		../Test/signup.h ../Test/login.cpp \
+		../Test/main.cpp \
 		../Test/mainwindow.cpp \
+		../Test/mymap.cpp \
 		../Test/search.cpp \
-		../Test/setting.cpp
+		../Test/setting.cpp \
+		../Test/signup.cpp
 QMAKE_TARGET  = Test
 DESTDIR       = 
 TARGET        = Test.app/Contents/MacOS/Test
@@ -257,7 +275,7 @@ include /Users/spoofch/Qt-framework/6.6.1/macos/mkspecs/features/mac/sdk.mk
 first: all
 ####### Build rules
 
-Test.app/Contents/MacOS/Test: ui_mainwindow.h ui_search.h ui_setting.h $(OBJECTS)  
+Test.app/Contents/MacOS/Test: ui_login.h ui_mainwindow.h ui_mymap.h ui_search.h ui_setting.h ui_signup.h $(OBJECTS)  
 	@test -d Test.app/Contents/MacOS/ || mkdir -p Test.app/Contents/MacOS/
 	$(LINK) $(LFLAGS) -o $(TARGET)  $(OBJECTS) $(OBJCOMP) $(LIBS)
 
@@ -627,9 +645,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../Test/maps.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents ../Test/mainwindow.h ../Test/search.h ../Test/setting.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Test/main.cpp ../Test/mainwindow.cpp ../Test/search.cpp ../Test/setting.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Test/mainwindow.ui ../Test/search.ui ../Test/setting.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../Test/login.h ../Test/mainwindow.h ../Test/mymap.h ../Test/search.h ../Test/setting.h ../Test/signup.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Test/login.cpp ../Test/main.cpp ../Test/mainwindow.cpp ../Test/mymap.cpp ../Test/search.cpp ../Test/setting.cpp ../Test/signup.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Test/login.ui ../Test/mainwindow.ui ../Test/mymap.ui ../Test/search.ui ../Test/setting.ui ../Test/signup.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -664,9 +682,15 @@ qrc_maps.cpp: ../Test/maps.qrc \
 		../Test/QmlMap.qml
 	/Users/spoofch/Qt-framework/6.6.1/macos/libexec/rcc -name maps --no-zstd ../Test/maps.qrc -o qrc_maps.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_search.cpp moc_setting.cpp
+compiler_moc_header_make_all: moc_login.cpp moc_mainwindow.cpp moc_mymap.cpp moc_search.cpp moc_setting.cpp moc_signup.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_search.cpp moc_setting.cpp
+	-$(DEL_FILE) moc_login.cpp moc_mainwindow.cpp moc_mymap.cpp moc_search.cpp moc_setting.cpp moc_signup.cpp
+moc_login.cpp: ../Test/login.h \
+		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QDialog \
+		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/qdialog.h \
+		../../../../Qt-framework/6.6.1/macos/libexec/moc
+	/Users/spoofch/Qt-framework/6.6.1/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=199711L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=15 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/spoofch/Qt-framework/6.6.1/macos/mkspecs/macx-clang -I/Users/spoofch/Documents/Project/C++/Test -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtGui.framework/Headers -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtNetwork.framework/Headers -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/spoofch/Qt-framework/6.6.1/macos/lib ../Test/login.h -o moc_login.cpp
+
 moc_mainwindow.cpp: ../Test/mainwindow.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QMainWindow \
 		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
@@ -681,8 +705,16 @@ moc_mainwindow.cpp: ../Test/mainwindow.h \
 		../Test/search.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QDialog \
 		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/qdialog.h \
+		../Test/setting.h \
+		../Test/mymap.h \
 		../../../../Qt-framework/6.6.1/macos/libexec/moc
 	/Users/spoofch/Qt-framework/6.6.1/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=199711L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=15 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/spoofch/Qt-framework/6.6.1/macos/mkspecs/macx-clang -I/Users/spoofch/Documents/Project/C++/Test -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtGui.framework/Headers -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtNetwork.framework/Headers -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/spoofch/Qt-framework/6.6.1/macos/lib ../Test/mainwindow.h -o moc_mainwindow.cpp
+
+moc_mymap.cpp: ../Test/mymap.h \
+		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QDialog \
+		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/qdialog.h \
+		../../../../Qt-framework/6.6.1/macos/libexec/moc
+	/Users/spoofch/Qt-framework/6.6.1/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=199711L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=15 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/spoofch/Qt-framework/6.6.1/macos/mkspecs/macx-clang -I/Users/spoofch/Documents/Project/C++/Test -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtGui.framework/Headers -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtNetwork.framework/Headers -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/spoofch/Qt-framework/6.6.1/macos/lib ../Test/mymap.h -o moc_mymap.cpp
 
 moc_search.cpp: ../Test/search.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QDialog \
@@ -696,16 +728,30 @@ moc_setting.cpp: ../Test/setting.h \
 		../../../../Qt-framework/6.6.1/macos/libexec/moc
 	/Users/spoofch/Qt-framework/6.6.1/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=199711L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=15 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/spoofch/Qt-framework/6.6.1/macos/mkspecs/macx-clang -I/Users/spoofch/Documents/Project/C++/Test -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtGui.framework/Headers -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtNetwork.framework/Headers -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/spoofch/Qt-framework/6.6.1/macos/lib ../Test/setting.h -o moc_setting.cpp
 
+moc_signup.cpp: ../Test/signup.h \
+		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QDialog \
+		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/qdialog.h \
+		../../../../Qt-framework/6.6.1/macos/libexec/moc
+	/Users/spoofch/Qt-framework/6.6.1/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=199711L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=15 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/spoofch/Qt-framework/6.6.1/macos/mkspecs/macx-clang -I/Users/spoofch/Documents/Project/C++/Test -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtGui.framework/Headers -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtNetwork.framework/Headers -I/Users/spoofch/Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/spoofch/Qt-framework/6.6.1/macos/lib ../Test/signup.h -o moc_signup.cpp
+
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h ui_search.h ui_setting.h
+compiler_uic_make_all: ui_login.h ui_mainwindow.h ui_mymap.h ui_search.h ui_setting.h ui_signup.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h ui_search.h ui_setting.h
+	-$(DEL_FILE) ui_login.h ui_mainwindow.h ui_mymap.h ui_search.h ui_setting.h ui_signup.h
+ui_login.h: ../Test/login.ui \
+		../../../../Qt-framework/6.6.1/macos/libexec/uic
+	/Users/spoofch/Qt-framework/6.6.1/macos/libexec/uic ../Test/login.ui -o ui_login.h
+
 ui_mainwindow.h: ../Test/mainwindow.ui \
 		../../../../Qt-framework/6.6.1/macos/libexec/uic
 	/Users/spoofch/Qt-framework/6.6.1/macos/libexec/uic ../Test/mainwindow.ui -o ui_mainwindow.h
+
+ui_mymap.h: ../Test/mymap.ui \
+		../../../../Qt-framework/6.6.1/macos/libexec/uic
+	/Users/spoofch/Qt-framework/6.6.1/macos/libexec/uic ../Test/mymap.ui -o ui_mymap.h
 
 ui_search.h: ../Test/search.ui \
 		../../../../Qt-framework/6.6.1/macos/libexec/uic
@@ -714,6 +760,10 @@ ui_search.h: ../Test/search.ui \
 ui_setting.h: ../Test/setting.ui \
 		../../../../Qt-framework/6.6.1/macos/libexec/uic
 	/Users/spoofch/Qt-framework/6.6.1/macos/libexec/uic ../Test/setting.ui -o ui_setting.h
+
+ui_signup.h: ../Test/signup.ui \
+		../../../../Qt-framework/6.6.1/macos/libexec/uic
+	/Users/spoofch/Qt-framework/6.6.1/macos/libexec/uic ../Test/signup.ui -o ui_signup.h
 
 compiler_rez_source_make_all:
 compiler_rez_source_clean:
@@ -727,7 +777,11 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
-main.o: ../Test/main.cpp ../Test/mainwindow.h \
+login.o: ../Test/login.cpp ../Test/login.h \
+		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QDialog \
+		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/qdialog.h \
+		ui_login.h \
+		../Test/mainwindow.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QMainWindow \
 		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtNetwork.framework/Headers/QNetworkRequest \
@@ -739,6 +793,11 @@ main.o: ../Test/main.cpp ../Test/mainwindow.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/QJsonObject \
 		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/qjsonobject.h \
 		../Test/search.h \
+		../Test/setting.h \
+		../Test/mymap.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o login.o ../Test/login.cpp
+
+main.o: ../Test/main.cpp ../Test/signup.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QDialog \
 		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/qdialog.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QApplication \
@@ -759,6 +818,8 @@ mainwindow.o: ../Test/mainwindow.cpp ../Test/mainwindow.h \
 		../Test/search.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QDialog \
 		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/qdialog.h \
+		../Test/setting.h \
+		../Test/mymap.h \
 		ui_mainwindow.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/QDebug \
 		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/qdebug.h \
@@ -776,6 +837,25 @@ mainwindow.o: ../Test/mainwindow.cpp ../Test/mainwindow.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/qjsonarray.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../Test/mainwindow.cpp
 
+mymap.o: ../Test/mymap.cpp ../Test/mymap.h \
+		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QDialog \
+		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/qdialog.h \
+		ui_mymap.h \
+		../Test/search.h \
+		../Test/mainwindow.h \
+		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QMainWindow \
+		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
+		../../../../Qt-framework/6.6.1/macos/lib/QtNetwork.framework/Headers/QNetworkRequest \
+		../../../../Qt-framework/6.6.1/macos/lib/QtNetwork.framework/Headers/qnetworkrequest.h \
+		../../../../Qt-framework/6.6.1/macos/lib/QtNetwork.framework/Headers/QNetworkReply \
+		../../../../Qt-framework/6.6.1/macos/lib/QtNetwork.framework/Headers/qnetworkreply.h \
+		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/QJsonDocument \
+		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/qjsondocument.h \
+		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/QJsonObject \
+		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/qjsonobject.h \
+		../Test/setting.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mymap.o ../Test/mymap.cpp
+
 search.o: ../Test/search.cpp ../Test/search.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QDialog \
 		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/qdialog.h \
@@ -790,26 +870,57 @@ search.o: ../Test/search.cpp ../Test/search.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/QJsonDocument \
 		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/qjsondocument.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/QJsonObject \
-		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/qjsonobject.h
+		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/qjsonobject.h \
+		../Test/setting.h \
+		../Test/mymap.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o search.o ../Test/search.cpp
 
 setting.o: ../Test/setting.cpp ../Test/setting.h \
 		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QDialog \
 		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/qdialog.h \
-		ui_setting.h
+		ui_setting.h \
+		../Test/mainwindow.h \
+		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QMainWindow \
+		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
+		../../../../Qt-framework/6.6.1/macos/lib/QtNetwork.framework/Headers/QNetworkRequest \
+		../../../../Qt-framework/6.6.1/macos/lib/QtNetwork.framework/Headers/qnetworkrequest.h \
+		../../../../Qt-framework/6.6.1/macos/lib/QtNetwork.framework/Headers/QNetworkReply \
+		../../../../Qt-framework/6.6.1/macos/lib/QtNetwork.framework/Headers/qnetworkreply.h \
+		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/QJsonDocument \
+		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/qjsondocument.h \
+		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/QJsonObject \
+		../../../../Qt-framework/6.6.1/macos/lib/QtCore.framework/Headers/qjsonobject.h \
+		../Test/search.h \
+		../Test/mymap.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o setting.o ../Test/setting.cpp
+
+signup.o: ../Test/signup.cpp ../Test/signup.h \
+		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/QDialog \
+		../../../../Qt-framework/6.6.1/macos/lib/QtWidgets.framework/Headers/qdialog.h \
+		ui_signup.h \
+		../Test/login.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o signup.o ../Test/signup.cpp
 
 qrc_maps.o: qrc_maps.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_maps.o qrc_maps.cpp
 
+moc_login.o: moc_login.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_login.o moc_login.cpp
+
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
+
+moc_mymap.o: moc_mymap.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mymap.o moc_mymap.cpp
 
 moc_search.o: moc_search.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_search.o moc_search.cpp
 
 moc_setting.o: moc_setting.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_setting.o moc_setting.cpp
+
+moc_signup.o: moc_signup.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_signup.o moc_signup.cpp
 
 ####### Install
 

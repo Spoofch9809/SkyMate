@@ -442,7 +442,7 @@ color: rgb(97, 97, 97);</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QFrame" name="UVindex_frame">
+      <widget class="QFrame" name="AirQuality_frame">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -466,7 +466,7 @@ border-radius: 10px;</string>
          <rect>
           <x>50</x>
           <y>10</y>
-          <width>58</width>
+          <width>61</width>
           <height>16</height>
          </rect>
         </property>
@@ -479,10 +479,10 @@ border-radius: 10px;</string>
          <string notr="true">color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
-         <string>UV index</string>
+         <string>Air Quality</string>
         </property>
        </widget>
-       <widget class="QLabel" name="uvindex_icon">
+       <widget class="QLabel" name="AirQuality_icon">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -495,16 +495,16 @@ border-radius: 10px;</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>../Icons/uvindex_icon.png</pixmap>
+         <pixmap>../Icons/AirQuality.png</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QLabel" name="uvindex_value">
+       <widget class="QLabel" name="AirQuality_value">
         <property name="geometry">
          <rect>
-          <x>50</x>
+          <x>60</x>
           <y>50</y>
           <width>61</width>
           <height>16</height>
@@ -575,7 +575,7 @@ border-radius: 10px;</string>
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>../Icons/windspeed.png</pixmap>
+         <pixmap>../Icons/windspeed_icon.png</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
@@ -1091,7 +1091,7 @@ border-radius: 10px;</string>
       <zorder>comboBox</zorder>
       <zorder>location_label</zorder>
       <zorder>label</zorder>
-      <zorder>UVindex_frame</zorder>
+      <zorder>AirQuality_frame</zorder>
       <zorder>Windspeed_frame</zorder>
       <zorder>Humidity_frame</zorder>
       <zorder>Visibility_frame</zorder>
@@ -1387,7 +1387,7 @@ border-radius: 10px;
          <string>5-Day Forecast</string>
         </property>
        </widget>
-       <widget class="QLabel" name="monday_label">
+       <widget class="QLabel" name="fifthday_label">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -1409,7 +1409,7 @@ border-radius: 10px;
          <string>5-day</string>
         </property>
        </widget>
-       <widget class="QLabel" name="wednesday_label">
+       <widget class="QLabel" name="today_label">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -1431,7 +1431,7 @@ border-radius: 10px;
          <string>Today</string>
         </property>
        </widget>
-       <widget class="QLabel" name="thursday_label">
+       <widget class="QLabel" name="tomorrow_label">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -1453,7 +1453,7 @@ border-radius: 10px;
          <string>Next-day</string>
         </property>
        </widget>
-       <widget class="QLabel" name="friday_label">
+       <widget class="QLabel" name="secondday_label">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -1475,7 +1475,7 @@ border-radius: 10px;
          <string>2-day</string>
         </property>
        </widget>
-       <widget class="QLabel" name="saturday_label">
+       <widget class="QLabel" name="thirdday_label">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -1497,7 +1497,7 @@ border-radius: 10px;
          <string>3-day</string>
         </property>
        </widget>
-       <widget class="QLabel" name="sunday_label">
+       <widget class="QLabel" name="fourthday_label">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -1519,7 +1519,7 @@ border-radius: 10px;
          <string>4-day</string>
         </property>
        </widget>
-       <widget class="QLabel" name="monday_icon">
+       <widget class="QLabel" name="fifthday_icon">
         <property name="geometry">
          <rect>
           <x>150</x>
@@ -1538,7 +1538,7 @@ border-radius: 10px;
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QLabel" name="wednesday_icon">
+       <widget class="QLabel" name="today_icon">
         <property name="geometry">
          <rect>
           <x>150</x>
@@ -1557,7 +1557,7 @@ border-radius: 10px;
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QLabel" name="thursday_icon">
+       <widget class="QLabel" name="tomorrow_icon">
         <property name="geometry">
          <rect>
           <x>150</x>
@@ -1573,7 +1573,7 @@ border-radius: 10px;
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QLabel" name="friday_icon">
+       <widget class="QLabel" name="secondday_icon">
         <property name="geometry">
          <rect>
           <x>150</x>
@@ -1589,7 +1589,7 @@ border-radius: 10px;
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QLabel" name="saturday_icon">
+       <widget class="QLabel" name="thirdday_icon">
         <property name="geometry">
          <rect>
           <x>150</x>
@@ -1608,7 +1608,7 @@ border-radius: 10px;
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QLabel" name="sunday_icon">
+       <widget class="QLabel" name="fourthday_icon">
         <property name="geometry">
          <rect>
           <x>150</x>
@@ -1627,7 +1627,7 @@ border-radius: 10px;
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QLabel" name="monday_description">
+       <widget class="QLabel" name="fifthday_description">
         <property name="geometry">
          <rect>
           <x>250</x>
@@ -1649,7 +1649,7 @@ border-radius: 10px;
          <string>Sunny</string>
         </property>
        </widget>
-       <widget class="QLabel" name="wednesday_description">
+       <widget class="QLabel" name="today_description">
         <property name="geometry">
          <rect>
           <x>250</x>
@@ -1671,7 +1671,7 @@ border-radius: 10px;
          <string>Sunny</string>
         </property>
        </widget>
-       <widget class="QLabel" name="thursday_description">
+       <widget class="QLabel" name="tomorrow_description">
         <property name="geometry">
          <rect>
           <x>250</x>
@@ -1693,7 +1693,7 @@ border-radius: 10px;
          <string>Sunny</string>
         </property>
        </widget>
-       <widget class="QLabel" name="friday_description">
+       <widget class="QLabel" name="secondday_description">
         <property name="geometry">
          <rect>
           <x>250</x>
@@ -1715,7 +1715,7 @@ border-radius: 10px;
          <string>Sunny</string>
         </property>
        </widget>
-       <widget class="QLabel" name="saturday_description">
+       <widget class="QLabel" name="thirdday_description">
         <property name="geometry">
          <rect>
           <x>250</x>
@@ -1737,7 +1737,7 @@ border-radius: 10px;
          <string>Sunny</string>
         </property>
        </widget>
-       <widget class="QLabel" name="sunday_description">
+       <widget class="QLabel" name="fourthday_description">
         <property name="geometry">
          <rect>
           <x>250</x>
@@ -1784,7 +1784,7 @@ border-radius: 10px;
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
-       <widget class="QLabel" name="monday_temp">
+       <widget class="QLabel" name="fifthday_temp">
         <property name="geometry">
          <rect>
           <x>340</x>
@@ -1809,7 +1809,7 @@ border-radius: 10px;
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
-       <widget class="QLabel" name="wednesday_temp">
+       <widget class="QLabel" name="today_temp">
         <property name="geometry">
          <rect>
           <x>340</x>
@@ -1834,7 +1834,7 @@ border-radius: 10px;
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
-       <widget class="QLabel" name="thursday_temp">
+       <widget class="QLabel" name="tomorrow_temp">
         <property name="geometry">
          <rect>
           <x>340</x>
@@ -1859,7 +1859,7 @@ border-radius: 10px;
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
-       <widget class="QLabel" name="friday_temp">
+       <widget class="QLabel" name="secondday_temp">
         <property name="geometry">
          <rect>
           <x>340</x>
@@ -1884,7 +1884,7 @@ border-radius: 10px;
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
-       <widget class="QLabel" name="saturday_temp">
+       <widget class="QLabel" name="thirdday_temp">
         <property name="geometry">
          <rect>
           <x>340</x>
@@ -1909,7 +1909,7 @@ border-radius: 10px;
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
-       <widget class="QLabel" name="sunday_temp">
+       <widget class="QLabel" name="fourthday_temp">
         <property name="geometry">
          <rect>
           <x>340</x>
