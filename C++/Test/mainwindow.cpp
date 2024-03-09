@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Setting_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/settings.png"));
 
     // Icons for the middle widgets in labels
-    ui->AirQuality_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/uvindex_icon.png"));
+    ui->AirQuality_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/AirQuality_icon.png"));
     ui->windspeed_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/windspeed_icon.png"));
     ui->humidity_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/humidity_icon.png"));
     ui->visibility_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/visibility_icon.png"));

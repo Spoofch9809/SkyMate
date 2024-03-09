@@ -17,7 +17,6 @@ public:
 
 private slots:
     void signup_Button();
-
     void login_Button();
 
 private:

@@ -1,6 +1,7 @@
 #include "login.h"
 #include "ui_login.h"
 #include "mainwindow.h"
+#include "signup.h"
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
@@ -15,6 +16,7 @@ login::login(QWidget *parent)
     ui->signup_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/signup_icon.png"));
 
     connect(ui->login_Button, &QPushButton::clicked, this, &login::login_Button);
+    connect(ui->goto_signup_Button, &QPushButton::clicked, this, &login::goto_signup_button);
 }
 
 login::~login()
@@ -79,4 +81,12 @@ void login::login_Button()
     {
         qDebug() << "Error opening the file!";
     }
+}
+
+void login::goto_signup_button()
+{
+    qDebug() << "Login successful";
+    hide();
+    Signup *signup = new Signup();
+    signup->show();
 }

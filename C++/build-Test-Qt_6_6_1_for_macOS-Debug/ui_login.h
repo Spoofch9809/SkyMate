@@ -30,6 +30,8 @@ public:
     QLabel *label_6;
     QLineEdit *password_box;
     QPushButton *login_Button;
+    QPushButton *goto_signup_Button;
+    QLabel *label_7;
     QFrame *Left;
     QLabel *signup_icon;
 
@@ -94,6 +96,29 @@ public:
         login_Button->setGeometry(QRect(20, 410, 481, 61));
         login_Button->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
 "background-color: rgb(126, 179, 74);"));
+        goto_signup_Button = new QPushButton(Right);
+        goto_signup_Button->setObjectName("goto_signup_Button");
+        goto_signup_Button->setGeometry(QRect(300, 490, 61, 32));
+        QFont font3;
+        font3.setUnderline(true);
+        goto_signup_Button->setFont(font3);
+        goto_signup_Button->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+        goto_signup_Button->setFlat(true);
+        label_7 = new QLabel(Right);
+        label_7->setObjectName("label_7");
+        label_7->setGeometry(QRect(160, 490, 141, 31));
+        label_7->setFont(font2);
+        label_7->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+        label_7->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+        label->raise();
+        label_2->raise();
+        label_5->raise();
+        username_box->raise();
+        label_6->raise();
+        password_box->raise();
+        login_Button->raise();
+        label_7->raise();
+        goto_signup_Button->raise();
         Left = new QFrame(login);
         Left->setObjectName("Left");
         Left->setGeometry(QRect(10, 10, 521, 616));
@@ -119,6 +144,8 @@ public:
         label_6->setText(QCoreApplication::translate("login", "Password", nullptr));
         password_box->setPlaceholderText(QCoreApplication::translate("login", "Create a password ex. thebest", nullptr));
         login_Button->setText(QCoreApplication::translate("login", "Log in", nullptr));
+        goto_signup_Button->setText(QCoreApplication::translate("login", "Sign up", nullptr));
+        label_7->setText(QCoreApplication::translate("login", "Don't have an account?", nullptr));
         signup_icon->setText(QString());
     } // retranslateUi
 
