@@ -24,8 +24,6 @@ MainWindow::MainWindow(QWidget *parent)
     // Icons for the left widget menu bar in buttons
     ui->Home_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/Home.png"));
     ui->Dashboard_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/dashboard.png"));
-    ui->Search_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/search.png"));
-    ui->Map_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/map.png"));
     ui->Setting_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/settings.png"));
 
     // Icons for the middle widgets in labels
@@ -68,8 +66,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->Home_button, &QPushButton::clicked, this, &MainWindow::Home_button);
     connect(ui->Dashboard_button, &QPushButton::clicked, this, &MainWindow::Dashboard_button);
-    connect(ui->Search_button, &QPushButton::clicked, this, &MainWindow::Search_button);
-    connect(ui->Map_button, &QPushButton::clicked, this, &MainWindow::Map_button);
     connect(ui->Setting_button, &QPushButton::clicked, this, &MainWindow::Setting_button);
 
 }
@@ -83,28 +79,14 @@ MainWindow::~MainWindow()
 void MainWindow::Home_button()
 {
     qDebug() << "Home-Button-Clicked";
+    hide();
+    signup = new Signup(this);
+    signup->show();
 }
 
 void MainWindow::Dashboard_button()
 {
     qDebug() << "DashBoard-Button-Clicked";
-}
-
-void MainWindow::Search_button()
-{
-    qDebug() << "Search-Button-Clicked";
-    hide();
-    search = new Search(this);
-    search->show();
-}
-
-void MainWindow::Map_button()
-{
-    qDebug() << "Map-Button-Clicked";
-    hide();
-    mymap = new myMap(this);
-    mymap->show();
-
 }
 
 void MainWindow::Setting_button()

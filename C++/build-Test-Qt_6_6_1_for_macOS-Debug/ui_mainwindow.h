@@ -29,8 +29,6 @@ public:
     QGridLayout *gridLayout;
     QFrame *Left;
     QPushButton *Home_button;
-    QPushButton *Search_button;
-    QPushButton *Map_button;
     QPushButton *Setting_button;
     QPushButton *Dashboard_button;
     QFrame *Middle;
@@ -151,43 +149,17 @@ public:
         Home_button->setIcon(icon);
         Home_button->setIconSize(QSize(60, 60));
         Home_button->setFlat(true);
-        Search_button = new QPushButton(Left);
-        Search_button->setObjectName("Search_button");
-        Search_button->setGeometry(QRect(30, 210, 63, 50));
-        Search_button->setMinimumSize(QSize(50, 50));
-        Search_button->setFont(font);
-        Search_button->setCursor(QCursor(Qt::OpenHandCursor));
-        Search_button->setLayoutDirection(Qt::LeftToRight);
-        Search_button->setAutoFillBackground(false);
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8("../Icons/search.png"), QSize(), QIcon::Normal, QIcon::Off);
-        Search_button->setIcon(icon1);
-        Search_button->setIconSize(QSize(30, 30));
-        Search_button->setFlat(true);
-        Map_button = new QPushButton(Left);
-        Map_button->setObjectName("Map_button");
-        Map_button->setGeometry(QRect(30, 270, 63, 50));
-        Map_button->setMinimumSize(QSize(50, 50));
-        Map_button->setFont(font);
-        Map_button->setCursor(QCursor(Qt::OpenHandCursor));
-        Map_button->setLayoutDirection(Qt::LeftToRight);
-        Map_button->setAutoFillBackground(false);
-        QIcon icon2;
-        icon2.addFile(QString::fromUtf8("../Icons/map.png"), QSize(), QIcon::Normal, QIcon::Off);
-        Map_button->setIcon(icon2);
-        Map_button->setIconSize(QSize(30, 30));
-        Map_button->setFlat(true);
         Setting_button = new QPushButton(Left);
         Setting_button->setObjectName("Setting_button");
-        Setting_button->setGeometry(QRect(30, 330, 61, 51));
+        Setting_button->setGeometry(QRect(30, 210, 61, 51));
         Setting_button->setMinimumSize(QSize(50, 50));
         Setting_button->setFont(font);
         Setting_button->setCursor(QCursor(Qt::OpenHandCursor));
         Setting_button->setLayoutDirection(Qt::LeftToRight);
         Setting_button->setAutoFillBackground(false);
-        QIcon icon3;
-        icon3.addFile(QString::fromUtf8("../Icons/settings.png"), QSize(), QIcon::Normal, QIcon::Off);
-        Setting_button->setIcon(icon3);
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8("../Icons/settings.png"), QSize(), QIcon::Normal, QIcon::Off);
+        Setting_button->setIcon(icon1);
         Setting_button->setIconSize(QSize(25, 25));
         Setting_button->setFlat(true);
         Dashboard_button = new QPushButton(Left);
@@ -199,9 +171,9 @@ public:
         Dashboard_button->setLayoutDirection(Qt::LeftToRight);
         Dashboard_button->setAutoFillBackground(false);
         Dashboard_button->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
-        QIcon icon4;
-        icon4.addFile(QString::fromUtf8("../Icons/dashboard.png"), QSize(), QIcon::Normal, QIcon::Off);
-        Dashboard_button->setIcon(icon4);
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8("../Icons/dashboard.png"), QSize(), QIcon::Normal, QIcon::Off);
+        Dashboard_button->setIcon(icon2);
         Dashboard_button->setIconSize(QSize(30, 30));
         Dashboard_button->setFlat(true);
 
@@ -677,14 +649,6 @@ public:
         Home_button->setToolTip(QCoreApplication::translate("MainWindow", "access for interactive map", nullptr));
 #endif // QT_CONFIG(tooltip)
         Home_button->setText(QString());
-#if QT_CONFIG(tooltip)
-        Search_button->setToolTip(QCoreApplication::translate("MainWindow", "access for interactive map", nullptr));
-#endif // QT_CONFIG(tooltip)
-        Search_button->setText(QString());
-#if QT_CONFIG(tooltip)
-        Map_button->setToolTip(QCoreApplication::translate("MainWindow", "access for interactive map", nullptr));
-#endif // QT_CONFIG(tooltip)
-        Map_button->setText(QString());
 #if QT_CONFIG(tooltip)
         Setting_button->setToolTip(QCoreApplication::translate("MainWindow", "access for interactive map", nullptr));
 #endif // QT_CONFIG(tooltip)

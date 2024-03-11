@@ -1,8 +1,7 @@
 #include "setting.h"
 #include "ui_setting.h"
 #include "mainwindow.h"
-#include "search.h"
-#include "mymap.h"
+#include "signup.h"
 
 Setting::Setting(QWidget *parent)
     : QDialog(parent)
@@ -12,8 +11,6 @@ Setting::Setting(QWidget *parent)
     // Icons for the left widget menu bar in buttons
     ui->Home_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/Home.png"));
     ui->Dashboard_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/dashboard.png"));
-    ui->Search_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/search.png"));
-    ui->Map_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/map.png"));
     ui->Setting_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/settings.png"));
 
     // Icons for the middle widgets in labels
@@ -57,8 +54,6 @@ Setting::Setting(QWidget *parent)
 
     connect(ui->Home_button, &QPushButton::clicked, this, &Setting::Home_button);
     connect(ui->Dashboard_button, &QPushButton::clicked, this, &Setting::Dashboard_button);
-    connect(ui->Search_button, &QPushButton::clicked, this, &Setting::Search_button);
-    connect(ui->Map_button, &QPushButton::clicked, this, &Setting::Map_button);
     connect(ui->Setting_button, &QPushButton::clicked, this, &Setting::Setting_button);
 }
 
@@ -70,8 +65,8 @@ void Setting::Home_button()
 {
     qDebug() << "Home-Button-Clicked";
     hide();
-    MainWindow *mainWindow = new MainWindow();
-    mainWindow->show();
+    Signup *signup = new Signup();
+    signup->show();
 }
 
 void Setting::Dashboard_button()
@@ -80,22 +75,6 @@ void Setting::Dashboard_button()
     hide();
     MainWindow *mainWindow = new MainWindow();
     mainWindow->show();
-}
-
-void Setting::Search_button()
-{
-    qDebug() << "Search-Button-Clicked";
-    hide();
-    Search *search = new Search();
-    search->show();
-}
-
-void Setting::Map_button()
-{
-    qDebug() << "Map-Button-Clicked";
-    hide();
-    myMap *mymap = new myMap();
-    mymap->show();
 }
 
 void Setting::Setting_button()

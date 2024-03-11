@@ -12,24 +12,18 @@ SOURCES += \
     login.cpp \
     main.cpp \
     mainwindow.cpp \
-    mymap.cpp \
-    search.cpp \
     setting.cpp \
     signup.cpp
 
 HEADERS += \
     login.h \
     mainwindow.h \
-    mymap.h \
-    search.h \
     setting.h \
     signup.h
 
 FORMS += \
     login.ui \
     mainwindow.ui \
-    mymap.ui \
-    search.ui \
     setting.ui \
     signup.ui
 
@@ -38,5 +32,4 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-RESOURCES += \
-    maps.qrc
+RESOURCES +=

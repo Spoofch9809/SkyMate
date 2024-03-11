@@ -16,7 +16,7 @@ public:
     ~Setting();
 
 public slots:
-              // void updateUIFromApiResponse(const QJsonObject &jsonObject);
+    // void updateUIFromApiResponse(const QJsonObject &jsonObject);
 
     // void updateUIFromHourlyForecast(QJsonObject forecastWeatherJsonObject);
 
@@ -31,13 +31,10 @@ public slots:
     // void updateHumidityLabel(double humidity);
 
 private slots:
-    void Map_button();
 
     void Home_button();
 
     void Dashboard_button();
-
-    void Search_button();
 
     void Setting_button();
 
