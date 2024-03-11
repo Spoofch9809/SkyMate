@@ -6,9 +6,8 @@
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include "search.h"
 #include "setting.h"
-#include "mymap.h"
+#include "signup.h"
 
 using namespace std;
 
@@ -43,13 +42,10 @@ public slots:
     // void updateHumidityLabel(double humidity);
 
 private slots:
-    void Map_button();
 
     void Home_button();
 
     void Dashboard_button();
-
-    void Search_button();
 
     void Setting_button();
 
@@ -65,9 +61,8 @@ private:
     Ui::MainWindow *ui;
     QStringList city_names;
     QNetworkReply* makeApiRequest(const QString &link);
-    Search *search;
     Setting *setting;
-    myMap *mymap;
+    Signup *signup;
 
 };
 #endif // MAINWINDOW_H
