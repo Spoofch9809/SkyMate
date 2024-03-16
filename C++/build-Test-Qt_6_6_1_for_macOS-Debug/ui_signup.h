@@ -130,6 +130,7 @@ public:
         password_box->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
 "border-width:10px;\n"
 "border-color: rgb(50, 50, 50);"));
+        password_box->setEchoMode(QLineEdit::Password);
         policy_checkBox = new QCheckBox(Right);
         policy_checkBox->setObjectName("policy_checkBox");
         policy_checkBox->setGeometry(QRect(70, 470, 371, 20));

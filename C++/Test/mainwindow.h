@@ -8,7 +8,6 @@
 #include <QJsonObject>
 #include "setting.h"
 #include "signup.h"
-
 using namespace std;
 
 QT_BEGIN_NAMESPACE
@@ -27,6 +26,25 @@ public:
 
 
 public slots:
+
+    void handleFullScreenState(bool checked);
+
+    void handleTempCheckBox(bool checked);
+
+    void handleResolutionChange(int width, int height);
+
+    void ShowDashBoard();
+
+    // void handleTimeFormat(bool checked);
+
+    // void handleDistanceFormat(bool checked);
+
+    // void updateDistanceFormat(bool useKilometers);
+
+    // void updateTimeFormat(const QString& timeFormat);
+
+    ///////////////////////////////////////////////////////////
+
     void updateUIFromApiResponse(const QJsonObject &jsonObject);
 
     void updateUIFromHourlyForecast(QJsonObject forecastWeatherJsonObject);
@@ -35,11 +53,7 @@ public slots:
 
     void updateUIAirQuality(QJsonObject AirQalityJsonObject);
 
-    // void updateLocationLabel(QString LocationText);
-
-    // void updateWindspeedLabel(double windSpeed);
-
-    // void updateHumidityLabel(double humidity);
+    double celsiusToFahrenheit(double celsius);
 
 private slots:
 
@@ -51,18 +65,20 @@ private slots:
 
     void on_comboBox_currentIndexChanged(int index);
 
-    // void on_windspeed_value_linkActivated(const QString &link);
-
-    // void on_location_label_linkActivated(const QString &link);
-
-    // void on_humidity_value_linkActivated(const QString &link);
+    void Exit_button();
 
 private:
     Ui::MainWindow *ui;
+    QSize newSize;
     QStringList city_names;
     QNetworkReply* makeApiRequest(const QString &link);
-    Setting *setting;
-    Signup *signup;
+    Setting* setting;
+    Signup* signup;
+    bool useFahrenheit;
+    QJsonObject currentWeatherData;
 
+    QDateTime sunriseDateTime;
+    QDateTime sunsetDateTime;
+    double visibility;
 };
 #endif // MAINWINDOW_H

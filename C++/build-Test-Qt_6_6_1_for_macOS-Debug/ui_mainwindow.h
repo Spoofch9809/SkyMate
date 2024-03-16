@@ -31,6 +31,7 @@ public:
     QPushButton *Home_button;
     QPushButton *Setting_button;
     QPushButton *Dashboard_button;
+    QPushButton *Exit_button;
     QFrame *Middle;
     QComboBox *comboBox;
     QLabel *location_label;
@@ -176,6 +177,17 @@ public:
         Dashboard_button->setIcon(icon2);
         Dashboard_button->setIconSize(QSize(30, 30));
         Dashboard_button->setFlat(true);
+        Exit_button = new QPushButton(Left);
+        Exit_button->setObjectName("Exit_button");
+        Exit_button->setGeometry(QRect(30, 550, 61, 51));
+        Exit_button->setMinimumSize(QSize(50, 50));
+        Exit_button->setFont(font);
+        Exit_button->setCursor(QCursor(Qt::OpenHandCursor));
+        Exit_button->setLayoutDirection(Qt::LeftToRight);
+        Exit_button->setAutoFillBackground(false);
+        Exit_button->setIcon(icon1);
+        Exit_button->setIconSize(QSize(25, 25));
+        Exit_button->setFlat(true);
 
         gridLayout->addWidget(Left, 0, 0, 1, 1);
 
@@ -657,6 +669,10 @@ public:
         Dashboard_button->setToolTip(QCoreApplication::translate("MainWindow", "access for interactive map", nullptr));
 #endif // QT_CONFIG(tooltip)
         Dashboard_button->setText(QString());
+#if QT_CONFIG(tooltip)
+        Exit_button->setToolTip(QCoreApplication::translate("MainWindow", "access for interactive map", nullptr));
+#endif // QT_CONFIG(tooltip)
+        Exit_button->setText(QString());
         comboBox->setCurrentText(QString());
         comboBox->setPlaceholderText(QCoreApplication::translate("MainWindow", "Enter Location (ex. Bangkok)", nullptr));
         location_label->setText(QCoreApplication::translate("MainWindow", "Location:", nullptr));

@@ -19,12 +19,18 @@ using namespace std;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , setting(new Setting(this))
 {
     ui->setupUi(this);
+    this->setWindowTitle("SkyMate");
     // Icons for the left widget menu bar in buttons
+    this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    this->centralWidget()->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     ui->Home_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/Home.png"));
-    ui->Dashboard_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/dashboard.png"));
+    ui->Dashboard_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/dashboard.png"));;
     ui->Setting_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/settings.png"));
+    ui->Exit_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/Exit_icon.png"));
+
 
     // Icons for the middle widgets in labels
     ui->AirQuality_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/AirQuality_icon.png"));
@@ -32,9 +38,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->humidity_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/humidity_icon.png"));
     ui->visibility_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/visibility_icon.png"));
     ui->feelslike_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/feelslike_icon.png"));
-    ui->sunrise_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/chanceofrain_icon.png"));
+    ui->sunrise_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sunset_icon.png"));
     ui->pressure_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/pressure_icon.png"));
     ui->sunset_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sunset_icon.png"));
+
 
     // Icons in the middle widget for weathericon indicator
     ui->weathericon_indicator->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
@@ -64,10 +71,27 @@ MainWindow::MainWindow(QWidget *parent)
         "N'Djamena" << "Nagoya" << "Nairobi" << "Nanchong" << "Nanjing" << "Nassau" << "Nay Pyi Taw" << "New York" << "Niamey" << "Nicosia" << "Nouakchott" << "Noumea" << "Novosibirsk" << "Nuku'alofa" << "Nur-Sultan" << "Nuuk" << "Oranjestad";
     ui->comboBox->addItems(city_names);
 
+    setting = new Setting(this);
     connect(ui->Home_button, &QPushButton::clicked, this, &MainWindow::Home_button);
     connect(ui->Dashboard_button, &QPushButton::clicked, this, &MainWindow::Dashboard_button);
     connect(ui->Setting_button, &QPushButton::clicked, this, &MainWindow::Setting_button);
+    connect(ui->Exit_button, &QPushButton::clicked, this, &MainWindow::Exit_button);
 
+
+    connect(setting, &Setting::fullScreenStateChanged, this, &MainWindow::handleFullScreenState);
+
+    // Connect the signal from Setting to the slot in MainWindow
+    connect(setting, &Setting::CelsiusCheckBoxStateChanged, this, &MainWindow::handleTempCheckBox);
+
+    connect(setting, &Setting::resolutionChanged, this, &MainWindow::handleResolutionChange);
+
+    connect(setting, &Setting::showMainWindow, this, &MainWindow::ShowDashBoard);
+
+    connect(ui->comboBox, &QComboBox::currentIndexChanged, this, &MainWindow::on_comboBox_currentIndexChanged);
+
+    // connect(setting, &Setting::TimeFormatChanged, this, &MainWindow::handleTimeFormat);
+
+    // connect(setting, &Setting::DistanceFormatChanged, this, &MainWindow::handleDistanceFormat);
 }
 
 
@@ -80,8 +104,9 @@ void MainWindow::Home_button()
 {
     qDebug() << "Home-Button-Clicked";
     hide();
-    signup = new Signup(this);
+    Signup *signup = new Signup(this);
     signup->show();
+
 }
 
 void MainWindow::Dashboard_button()
@@ -93,12 +118,19 @@ void MainWindow::Setting_button()
 {
     qDebug() << "Setting-Button-Clicked";
     hide();
-    setting = new Setting(this);
     setting->show();
+}
+
+void MainWindow::Exit_button()
+{
+    exit(0);
+}
+void MainWindow::ShowDashBoard(){
+    show();
 }
 ///////////////////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////
 QNetworkReply* MainWindow::makeApiRequest(const QString &link)
 {
     {
@@ -179,6 +211,83 @@ QNetworkReply* MainWindow::makeApiRequest(const QString &link)
         return currentWeatherReply;
     }
 }
+
+double MainWindow::celsiusToFahrenheit(double celsius) {
+    return celsius * 9 / 5 + 32;
+}
+
+void MainWindow::handleTempCheckBox(bool checked){
+    if (checked) {
+        useFahrenheit = true;
+    } else {
+        useFahrenheit = false;
+    }
+    updateUIFromApiResponse(currentWeatherData);
+}
+void MainWindow::handleFullScreenState(bool checked)
+{
+    if (checked)
+    {
+        qDebug() << "Before: " << windowState();
+        // Set the window to fullscreen
+        setWindowState(windowState() | Qt::WindowFullScreen);
+        qDebug() << "After: " << windowState();
+    }
+    else
+    {
+        // Restore the window to its normal state
+        setWindowState(windowState() & ~Qt::WindowFullScreen);
+        qDebug() << "no Check";
+    }
+}
+
+// void MainWindow::handleTimeFormat(bool checked){
+//     if (checked){
+//         updateTimeFormat("hh:mm AP");
+//     } else {
+//         updateTimeFormat("HH:mm");
+//     }
+// }
+
+// void MainWindow::updateTimeFormat(const QString& timeFormat) {
+//     qDebug() << "Updating time format...";
+//     qDebug() << "Current sunriseDateTime:" << sunriseDateTime;
+
+//     QString sunriseTimeString = sunriseDateTime.toString(timeFormat);
+//     QString sunsetTimeString = sunsetDateTime.toString(timeFormat);
+
+//     qDebug() << "New sunriseTimeString:" << sunriseTimeString;
+
+//     // Update UI elements with the new time format
+//     ui->sunset_value->setText(sunsetTimeString);
+//     ui->sunrise_label->setText(sunriseTimeString);
+
+//     qDebug() << "UI elements updated.";
+// }
+
+// void MainWindow::handleDistanceFormat(bool checked){
+//     updateDistanceFormat(checked);
+// }
+// void MainWindow::updateDistanceFormat(bool useKilometers) {
+//     // If useKilometers is true, display visibility directly in kilometers
+//     // Otherwise, convert visibility to miles
+//     double visibilityValue = useKilometers ? visibility : (visibility / 1.60934); // 1 mile = 1.60934 kilometers
+
+//     // Determine the appropriate distance unit
+//     QString distanceUnit = useKilometers ? " km" : " miles";
+
+//     // Update UI elements with the visibility value and unit
+//     ui->visibility_value->setText(QString::number(visibilityValue, 'f', 0) + distanceUnit);
+// }
+
+
+void MainWindow:: handleResolutionChange(int width, int height)
+{
+    qDebug() << "Resolution changed to: " << width << "x" << height;
+    qDebug() << "Current size before resize: " << size();
+    resize(width, height);
+    qDebug() << "Current size after resize: " << size();
+}
 void MainWindow::updateUIFromApiResponse(const QJsonObject &jsonObject)
 {
     if (!jsonObject.isEmpty()) {
@@ -227,16 +336,22 @@ void MainWindow::updateUIFromApiResponse(const QJsonObject &jsonObject)
         // Update the correct UI element (windspeed label in this case)
         QString locationText = cityname + ", " + city_abbreviation;
         double temp_celsius = (temp - 273.15);
+        double temp_value = useFahrenheit ? celsiusToFahrenheit(temp_celsius) : temp_celsius;
+        QString temperatureText = QString::number(temp_value, 'f', 0) + (useFahrenheit ? "°F" : "°C");
         double feelslike_celsius = (feelslike - 273.15);
+        double feelslike_value = useFahrenheit ? celsiusToFahrenheit(feelslike_celsius) : feelslike_celsius;
+        QString feelslikeText = QString::number(feelslike_value, 'f', 0) + (useFahrenheit ? "°F" : "°C");
         double visibility_km = visibility / 1000;
         ui->location_label->setText(locationText);
         ui->windspeed_value->setText(QString::number(windSpeed, 'f', 1) + " m/s");
         ui->humidity_value->setText(QString::number(humidity, 'f', 0) + " %");
         ui->visibility_value->setText(QString::number(visibility_km, 'f', 0) + " km");
-        ui->feelslike_value->setText(QString::number(feelslike_celsius, 'f', 1) + " °c");
+        ui->feelslike_value->setText(feelslikeText);
         ui->pressure_value->setText(QString::number(pressure, 'f', 0) + " hPa");
         ui->sunset_value->setText(sunsetTimeString);
-        ui->temperature_label->setText(QString::number(temp_celsius, 'f', 0) + "°c");
+
+        ui->temperature_label->setText(temperatureText);
+
         ui->weathericon_indicator->clear();
         ui->sunrise_label->setText(sunriseTimeString);
 
@@ -525,42 +640,42 @@ void MainWindow::updateUIFromFiveDayForecast(QJsonObject forecastWeatherJsonObje
         double dailyMaxTemp = dailyObject["main"].toObject()["temp_max"].toDouble();
         double dailyMinTemp = dailyObject["main"].toObject()["temp_min"].toDouble();
 
-        QString temperatureText;
+        QString temperatureText2;
 
         if (dailyMaxTemp == 0 && dailyMinTemp == 0) {
-            temperatureText = "N/A";
+            temperatureText2 = "N/A";
         } else {
             dailyMaxTemp -= 273.15;
             dailyMinTemp -= 273.15;
 
             QString maxTempString = QString::number(dailyMaxTemp, 'f', 0);  // One decimal place
             QString minTempString = QString::number(dailyMinTemp, 'f', 0);  // One decimal place
-            temperatureText = QString("%1/%2°C").arg(maxTempString, minTempString);
+            temperatureText2 = QString("%1/%2°C").arg(maxTempString, minTempString);
         }
 
         // Update the corresponding QLabel based on the day of the week
         if (dayLabel == "today_temp") {
-            ui->today_temp->setText(temperatureText);
+            ui->today_temp->setText(temperatureText2);
             setWrappedText(ui->today_description,description);
             setWeatherIcon(ui->today_icon, iconCode);
         } else if (dayLabel == "tomorrow_temp") {
-            ui->tomorrow_temp->setText(temperatureText);
+            ui->tomorrow_temp->setText(temperatureText2);
             setWrappedText(ui->tomorrow_description, description);
             setWeatherIcon(ui->tomorrow_icon, iconCode);
         } else if (dayLabel == "secondday_temp") {
-            ui->tomorrow_temp->setText(temperatureText);
+            ui->secondday_temp->setText(temperatureText2);
             setWrappedText(ui->secondday_description, description);
             setWeatherIcon(ui->secondday_icon, iconCode);
         } else if (dayLabel == "thirdday_temp") {
-            ui->secondday_temp->setText(temperatureText);
+            ui->thirdday_temp->setText(temperatureText2);
             setWrappedText(ui->thirdday_description, description);
             setWeatherIcon(ui->thirdday_icon, iconCode);
         } else if (dayLabel == "fourthday_temp") {
-            ui->fourthday_temp->setText(temperatureText);
+            ui->fourthday_temp->setText(temperatureText2);
             setWrappedText(ui->fourthday_description,description);
             setWeatherIcon(ui->fourthday_icon, iconCode);
         } else if (dayLabel == "fifthday_temp") {
-            ui->fifthday_temp->setText(temperatureText);
+            ui->fifthday_temp->setText(temperatureText2);
             setWrappedText(ui->fifthday_description,description);
             setWeatherIcon(ui->fifthday_icon, iconCode);
         }
