@@ -91,6 +91,7 @@ public:
         password_box->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
 "border-width:10px;\n"
 "border-color: rgb(50, 50, 50);"));
+        password_box->setEchoMode(QLineEdit::Password);
         login_Button = new QPushButton(Right);
         login_Button->setObjectName("login_Button");
         login_Button->setGeometry(QRect(20, 410, 481, 61));

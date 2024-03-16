@@ -15,20 +15,26 @@ public:
     explicit Setting(QWidget *parent = nullptr);
     ~Setting();
 
+signals:
+    void fullScreenStateChanged(bool checked);
+
+    void CelsiusCheckBoxStateChanged(bool checked);
+
+    void resolutionChanged(int width, int height);
+
+    void showMainWindow();
+
+    // void TimeFormatChanged(bool checked);
+
+    // void DistanceFormatChanged(bool checked);
+
 public slots:
-    // void updateUIFromApiResponse(const QJsonObject &jsonObject);
 
-    // void updateUIFromHourlyForecast(QJsonObject forecastWeatherJsonObject);
+    void on_comboBox_currentIndexChanged(int index);
 
-    // void updateUIFromFiveDayForecast(QJsonObject forecastWeatherJsonObject);
+    void on_FullScreen_checkBox_stateChanged(int arg1);
 
-    // void updateUIFromUVIndex(QJsonObject UVindexJsonObject);
-
-    // void updateLocationLabel(QString LocationText);
-
-    // void updateWindspeedLabel(double windSpeed);
-
-    // void updateHumidityLabel(double humidity);
+    void celsius_checkBox_stateChanged(int argl);
 
 private slots:
 
@@ -38,17 +44,15 @@ private slots:
 
     void Setting_button();
 
-    // void on_comboBox_currentIndexChanged(int index);
+    void Exit_button();
 
-    // void on_windspeed_value_linkActivated(const QString &link);
 
-    // void on_location_label_linkActivated(const QString &link);
-
-    // void on_humidity_value_linkActivated(const QString &link);
-
+    void on_TimeFormat_stateChanged(int arg1);
 
 private:
     Ui::Setting *ui;
+    int selectedWidth;
+    int selectedHeight;
 };
 
 #endif // SETTING_H

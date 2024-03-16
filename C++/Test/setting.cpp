@@ -1,45 +1,24 @@
 #include "setting.h"
 #include "ui_setting.h"
-#include "mainwindow.h"
 #include "signup.h"
-
 Setting::Setting(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::Setting)
+    , ui(new Ui::Setting),
+    selectedWidth(0),
+    selectedHeight(0)
 {
     ui->setupUi(this);
+    this->setWindowTitle("SkyMate");
+
+    connect(ui->FullScreen_checkBox, &QCheckBox::stateChanged, this, &Setting::on_FullScreen_checkBox_stateChanged);
+    connect(this, &Setting::CelsiusCheckBoxStateChanged, this, &Setting::celsius_checkBox_stateChanged);
+
+
     // Icons for the left widget menu bar in buttons
     ui->Home_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/Home.png"));
     ui->Dashboard_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/dashboard.png"));
     ui->Setting_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/settings.png"));
-
-    // Icons for the middle widgets in labels
-    // ui->uvindex_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/uvindex_icon.png"));
-    // ui->windspeed_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/windspeed_icon.png"));
-    // ui->humidity_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/humidity_icon.png"));
-    // ui->visibility_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/visibility_icon.png"));
-    // ui->feelslike_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/feelslike_icon.png"));
-    // ui->sunrise_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/chanceofrain_icon.png"));
-    // ui->pressure_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/pressure_icon.png"));
-    // ui->sunset_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sunset_icon.png"));
-
-    // Icons in the middle widget for weathericon indicator
-    // ui->weathericon_indicator->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
-
-    // Icons in the right widget
-    // today's weather widget
-    // ui->weathericon_indicator_at_six->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudymightrain_icon.png"));
-    // ui->weathericon_indicator_at_nine->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudy_icon.png"));
-    // ui->weathericon_indicator_at_twelve->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
-
-    // 7Day Foorecast
-    // ui->monday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
-    // ui->tuesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
-    // ui->wednesday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
-    // ui->thursday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudy_icon.png"));
-    // ui->friday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudy_icon.png"));
-    // ui->saturday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/cloudymightrain_icon.png"));
-    // ui->sunday_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/sun_icon.png"));
+    ui->Exit_button->setIcon(QIcon("/Users/spoofch/Documents/Project/C++/Icons/Exit_icon.png"));
 
     // citylist
     QStringList city_names;
@@ -55,8 +34,16 @@ Setting::Setting(QWidget *parent)
     connect(ui->Home_button, &QPushButton::clicked, this, &Setting::Home_button);
     connect(ui->Dashboard_button, &QPushButton::clicked, this, &Setting::Dashboard_button);
     connect(ui->Setting_button, &QPushButton::clicked, this, &Setting::Setting_button);
-}
+    connect(ui->Exit_button, &QPushButton::clicked, this, &Setting::Exit_button);
 
+
+    QStringList resolutionList = {"1064 x 640", "1280 x 720", "1366 x 768", "1600 x 900", "1920 x 1080"};
+
+    ui->comboBox->addItems(resolutionList);
+
+    // Connect the signal to the slot
+    connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(on_comboBox_currentIndexChanged(int)));
+}
 Setting::~Setting()
 {
     delete ui;
@@ -65,7 +52,7 @@ void Setting::Home_button()
 {
     qDebug() << "Home-Button-Clicked";
     hide();
-    Signup *signup = new Signup();
+    Signup *signup = new Signup(this);
     signup->show();
 }
 
@@ -73,22 +60,111 @@ void Setting::Dashboard_button()
 {
     qDebug() << "DashBoard-Button-Clicked";
     hide();
-    MainWindow *mainWindow = new MainWindow();
-    mainWindow->show();
+
+    // Emit signals to inform MainWindow about changes
+
+    if (ui->FullScreen_checkBox->isChecked())
+    {
+        emit fullScreenStateChanged(true);
+    }
+    else
+    {
+        emit resolutionChanged(selectedWidth, selectedHeight);
+        emit fullScreenStateChanged(false);
+    }
+    // emit CelsiusCheckBoxStateChanged(Qt::Checked);
+    emit showMainWindow();
+
+    if (ui->TempUnit_checkBox->isChecked()){
+        emit CelsiusCheckBoxStateChanged(Qt::Checked);
+    }
+    else{
+        emit CelsiusCheckBoxStateChanged(Qt::Unchecked);
+    }
+
+    // if (ui->TimeFormat->isChecked()){
+    //     emit TimeFormatChanged(Qt::Checked);
+    // }
+    // else{
+    //     emit TimeFormatChanged(Qt::Unchecked);
+    // }
+
+    // if (ui->DistanceFormat->isChecked()){
+    //     emit DistanceFormatChanged(Qt::Checked);
+    // }
+    // else{
+    //     emit DistanceFormatChanged(Qt::Unchecked);
+    // }
 }
+
+void Setting::Exit_button(){
+    exit(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////////
 
 void Setting::Setting_button()
 {
     qDebug() << "Setting-Button-Clicked";
 }
 
-// void Setting::celsius_checkBox_stateChanged(int arg1)
-// {
+void Setting::on_comboBox_currentIndexChanged(int index)
+{
+    QString resolutionString = ui->comboBox->itemText(index);
 
-// }
+    QStringList resolutionList = resolutionString.split("x", Qt::SkipEmptyParts);
 
-// void Setting::fahrenheit_checkBox_stateChanged(int state)
-// {
-//     emit fahrenheit_checkBox_stateChanged(state);
-// }
+    if (resolutionList.size() == 2) {
+        // Convert the width and height to integers
+        selectedWidth = resolutionList[0].trimmed().toInt();
+        selectedHeight = resolutionList[1].trimmed().toInt();
+
+        //emit resolutionChanged(selectedWidth, selectedHeight);
+        setFixedSize(selectedWidth, selectedHeight);
+        // Print the selected resolution to the console
+        qDebug() << "Selected Resolution: " << selectedWidth << "x" << selectedHeight;
+    }
+    else {
+        qDebug() << "Invalid resolution format!";
+    }
+}
+
+void Setting::on_FullScreen_checkBox_stateChanged(int arg1)
+{
+    //emit fullScreenStateChanged(arg1 == Qt::Checked);
+
+    if (arg1 == Qt::Checked)
+    {
+        // Set the window to fullscreen
+        setWindowState(windowState() | Qt::WindowFullScreen);
+        qDebug() << "Checked";
+    }
+    else
+    {
+        // Restore the window to its normal state
+        setWindowState(windowState() & ~Qt::WindowFullScreen);
+        qDebug() << "no Checked";
+    }
+}
+
+void Setting::celsius_checkBox_stateChanged(int arg1)
+{
+    //emit CelsiusCheckBoxStateChanged(arg1 == Qt::Checked);
+    qDebug() << "CelsiusCheckBoxStateChanged emitted with value: " << (arg1 == Qt::Checked);
+}
+
+
+void Setting::on_TimeFormat_stateChanged(int arg1)
+{
+    if (arg1 == Qt::Checked)
+    {
+        //emit TimeFormatChanged(Qt::Checked);
+        qDebug() << "Time Format: " << (arg1 == Qt::Checked);
+    }
+    else{
+        //emit TimeFormatChanged(Qt::Unchecked);
+        qDebug() << "Time Format: " << (arg1 == Qt::Unchecked);
+    }
+
+}
 

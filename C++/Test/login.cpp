@@ -12,6 +12,7 @@ login::login(QWidget *parent)
     , ui(new Ui::login)
 {
     ui->setupUi(this);
+    this->setWindowTitle("SkyMate");
 
     ui->signup_icon->setPixmap(QPixmap("/Users/spoofch/Documents/Project/C++/Icons/signup_icon.png"));
 

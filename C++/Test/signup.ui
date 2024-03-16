@@ -290,6 +290,9 @@ border-color: rgb(50, 50, 50);</string>
 border-width:10px;
 border-color: rgb(50, 50, 50);</string>
     </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
+    </property>
     <property name="placeholderText">
      <string>Create a password ex. thebest</string>
     </property>
